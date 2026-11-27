@@ -1,0 +1,3316 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fff7fb" />
+  <meta name="description" content="คอมมิชั่นพากย์เสียงชาย & หญิง — มาม่าทอด & Naritzap" />
+  <title>มาม่าทอด & Naritzap — คอมมิชั่นพากย์เสียง</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#fff9fc;
+      --bg-2:#f9f8ff;
+      --card:rgba(255,255,255,.82);
+      --text:#40384a;
+      --muted:#807589;
+      --pink:#ff91b8;
+      --pink-2:#ffd6e5;
+      --purple:#aa95ff;
+      --purple-2:#e9e2ff;
+      --mint:#86e3c0;
+      --mint-2:#dcf8ec;
+      --yellow:#ffd97d;
+      --red:#ff7f93;
+      --line:rgba(82,65,98,.10);
+      --shadow:0 18px 50px rgba(92,70,110,.12);
+      --radius:28px;
+      --radius-sm:18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Noto Sans Thai",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255,185,211,.42), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(181,167,255,.28), transparent 26%),
+        linear-gradient(180deg,var(--bg),var(--bg-2));
+      overflow-x:hidden;
+    }
+    a{color:inherit}
+    button{font:inherit}
+    img{max-width:100%;display:block}
+
+    .noise{
+      position:fixed; inset:0; pointer-events:none; z-index:100;
+      opacity:.025;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    }
+
+    .shell{width:min(1140px,calc(100% - 32px));margin-inline:auto}
+    .section{padding:88px 0;position:relative}
+    .section-title{
+      margin:0 0 12px;
+      font-family:"Mali",sans-serif;
+      font-size:clamp(2rem,4vw,3.2rem);
+      line-height:1.15;
+      text-align:center;
+      letter-spacing:-.02em;
+    }
+    .section-sub{
+      margin:0 auto 36px;
+      max-width:720px;
+      text-align:center;
+      color:var(--muted);
+      font-size:1rem;
+    }
+
+    .topbar{
+      position:fixed;
+      z-index:90;
+      top:16px; left:50%; transform:translateX(-50%);
+      width:min(960px,calc(100% - 28px));
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      padding:9px 11px 9px 16px;
+      border:1px solid rgba(255,255,255,.7);
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      backdrop-filter:blur(18px);
+      box-shadow:0 12px 32px rgba(80,60,98,.10);
+    }
+    .brand{
+      font-family:"Mali",sans-serif;
+      font-weight:700;
+      font-size:.98rem;
+      white-space:nowrap;
+    }
+    .nav{
+      display:flex; gap:4px; align-items:center; overflow:auto;
+      scrollbar-width:none;
+    }
+    .nav::-webkit-scrollbar{display:none}
+    .nav a{
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.83rem;
+      font-weight:600;
+      white-space:nowrap;
+      transition:.2s ease;
+    }
+    .nav a:hover{background:#fff;color:var(--text)}
+    .nav-cta{
+      text-decoration:none;
+      padding:9px 15px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--pink),#f7a5d8);
+      color:#fff;
+      font-weight:700;
+      box-shadow:0 8px 20px rgba(255,111,169,.22);
+      white-space:nowrap;
+      font-size:.85rem;
+    }
+
+    .mobile-menu-btn{
+      position:relative;
+      z-index:1000;
+      display:none;
+      width:42px;
+      height:42px;
+      border:0;
+      border-radius:50%;
+      background:rgba(255,255,255,.86);
+      box-shadow:0 7px 18px rgba(80,60,98,.08);
+      cursor:pointer;
+      padding:0;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:4px;
+      flex:0 0 42px;
+    }
+    .mobile-menu-btn span{
+      width:18px;
+      height:2px;
+      border-radius:999px;
+      background:var(--text);
+      transition:.22s ease;
+    }
+    .mobile-menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .mobile-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+    .mobile-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+    .mobile-drawer-backdrop{
+      position:fixed;
+      inset:0;
+      z-index:998;
+      background:rgba(54,42,63,.24);
+      backdrop-filter:blur(4px);
+      opacity:0;
+      transition:opacity .28s ease;
+    }
+    .mobile-drawer-backdrop[hidden]{display:none !important}
+    .mobile-drawer-backdrop.is-open{opacity:1}
+    .mobile-drawer{
+      position:fixed;
+      z-index:999;
+      top:0;
+      right:0;
+      width:min(86vw,360px);
+      height:100dvh;
+      padding:18px 16px 22px;
+      background:rgba(255,249,252,.96);
+      backdrop-filter:blur(24px);
+      border-left:1px solid rgba(255,255,255,.9);
+      box-shadow:-24px 0 60px rgba(63,45,75,.14);
+      transform:translateX(104%);
+      transition:transform .34s cubic-bezier(.16,1,.3,1);
+      overflow-y:auto;
+    }
+    .mobile-drawer.is-open{transform:translateX(0)}
+    .mobile-drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:4px 2px 20px;
+    }
+    .mobile-drawer-brand{
+      font-family:"Mali";
+      font-size:1.05rem;
+      font-weight:800;
+    }
+    .mobile-drawer-brand span{color:var(--pink)}
+    .mobile-drawer-close{
+      width:40px;
+      height:40px;
+      border:0;
+      border-radius:50%;
+      background:#fff;
+      color:var(--text);
+      box-shadow:0 7px 18px rgba(80,60,98,.08);
+      font-size:1.65rem;
+      line-height:1;
+      cursor:pointer;
+    }
+    .mobile-drawer-nav{
+      display:grid;
+      gap:8px;
+    }
+    .mobile-drawer-nav a{
+      min-height:58px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:13px 15px;
+      border-radius:18px;
+      text-decoration:none;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(92,70,110,.06);
+      color:var(--text);
+      font-family:"Mali";
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .mobile-drawer-nav a:active{transform:scale(.985)}
+    .mobile-drawer-nav a b{
+      color:#b8a9c1;
+      font-size:.72rem;
+      font-family:"Noto Sans Thai";
+    }
+    .mobile-drawer-nav .drawer-contact{
+      margin-top:8px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      box-shadow:0 12px 26px rgba(180,124,205,.18);
+    }
+    .mobile-drawer-nav .drawer-contact b{color:#fff}
+    body.drawer-open{overflow:hidden}
+
+
+    .hero{
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+      padding:88px 0 28px;
+    }
+    .hero::before,.hero::after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      filter:blur(2px);
+      opacity:.9;
+    }
+    .hero::before{
+      width:320px;height:320px;left:-90px;top:13%;
+      background:linear-gradient(135deg,rgba(255,163,200,.32),rgba(255,226,239,.08));
+      animation:floatBubble 8s ease-in-out infinite;
+    }
+    .hero::after{
+      width:260px;height:260px;right:-60px;bottom:16%;
+      background:linear-gradient(135deg,rgba(174,156,255,.26),rgba(225,219,255,.07));
+      animation:floatBubble 10s 1s ease-in-out infinite reverse;
+    }
+    @keyframes floatBubble{50%{transform:translateY(-20px) scale(1.04)}}
+
+    .hero-inner{
+      width:min(980px,calc(100% - 32px));
+      height:100%;
+      margin:auto;
+      text-align:center;
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:0;
+    }
+    .hero h1{
+      margin:0 auto 6px;
+      font-family:"Mali",sans-serif;
+      font-weight:700;
+      font-size:clamp(2.5rem,6.5vw,5.5rem);
+      line-height:.98;
+      letter-spacing:-.055em;
+      max-width:940px;
+      flex:0 0 auto;
+    }
+    .hero h1 .amp{color:var(--pink);text-shadow:0 7px 24px rgba(255,140,184,.22)}
+    .hero-desc{
+      margin:7px auto 8px;
+      max-width:620px;
+      color:var(--muted);
+      font-size:clamp(.88rem,1.6vw,1.02rem);
+      line-height:1.55;
+      flex:0 0 auto;
+    }
+
+    .mascot-stage{
+      width:min(690px,100%);
+      margin:2px auto 0;
+      min-height:0;
+      max-height:40svh;
+      display:grid;
+      place-items:end center;
+      position:relative;
+      flex:0 1 auto;
+    }
+    .mascot-halo{
+      position:absolute;
+      width:72%; aspect-ratio:1.8/1;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(255,255,255,.88) 0 30%,rgba(255,203,224,.30) 55%,transparent 72%);
+      filter:blur(12px);
+      animation:pulseHalo 4s ease-in-out infinite;
+    }
+    @keyframes pulseHalo{50%{transform:scale(1.06);opacity:.75}}
+    .mascot-pair{
+      width:min(720px,96%);
+      min-height:0;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      gap:0;
+      position:relative;
+      z-index:2;
+      line-height:0;
+      margin-bottom:-2px;
+    }
+    .mascot{
+      width:50%;
+      max-width:360px;
+      max-height:min(380px,38svh);
+      object-fit:contain;
+      object-position:center bottom;
+      filter:drop-shadow(0 22px 20px rgba(77,54,92,.12));
+      transform-origin:50% 88%;
+    }
+    .mascot.male{
+      margin-right:-28px;
+      animation:mascotMale 4.2s ease-in-out infinite;
+    }
+    .mascot.female{
+      margin-left:-28px;
+      animation:mascotFemale 4.6s .25s ease-in-out infinite;
+    }
+    @keyframes mascotMale{
+      0%,100%{transform:translateY(0) rotate(-1.1deg)}
+      50%{transform:translateY(-8px) rotate(.4deg)}
+    }
+    @keyframes mascotFemale{
+      0%,100%{transform:translateY(-2px) rotate(.9deg)}
+      50%{transform:translateY(-11px) rotate(-.3deg)}
+    }
+
+    .status{
+      display:inline-flex;align-items:center;gap:9px;
+      margin-top:4px;
+      padding:10px 18px;
+      border-radius:999px;
+      border:1px solid rgba(111,220,174,.38);
+      background:rgba(255,255,255,.82);
+      box-shadow:0 10px 34px rgba(71,185,141,.12);
+      font-weight:700;
+      transition:border-color .25s ease, box-shadow .25s ease;
+    }
+    .status.is-busy{
+      border-color:rgba(245,166,35,.42);
+      box-shadow:0 10px 34px rgba(245,166,35,.14);
+    }
+    .status.is-closed{
+      border-color:rgba(255,107,129,.42);
+      box-shadow:0 10px 34px rgba(255,107,129,.14);
+    }
+    .status-dot{
+      position:relative;
+      width:11px;height:11px;border-radius:50%;
+      background:#46d38f;
+      flex:0 0 11px;
+    }
+    .status-dot::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      background:inherit;
+      opacity:.6;
+      animation:statusPulse 1.8s cubic-bezier(.16,1,.3,1) infinite;
+    }
+    .status.is-busy .status-dot{background:#f5a623}
+    .status.is-closed .status-dot{background:#ff6b81}
+    .status.is-closed .status-dot::after{animation:none;opacity:0}
+    @keyframes statusPulse{
+      0%{transform:scale(1);opacity:.65}
+      100%{transform:scale(2.5);opacity:0}
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:14px;
+      animation:heroReveal .7s .56s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:11px 22px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:.9rem;
+      transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, background .2s ease;
+    }
+    .hero-btn:hover{transform:translateY(-2px)}
+    .hero-btn:active{transform:scale(.96)}
+    .hero-btn-primary{
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      color:#fff;
+      box-shadow:0 12px 26px rgba(185,126,205,.26);
+    }
+    .hero-btn-primary:hover{box-shadow:0 16px 32px rgba(185,126,205,.34)}
+    .hero-btn-secondary{
+      background:rgba(255,255,255,.84);
+      color:var(--text);
+      border:1px solid rgba(92,70,110,.12);
+      box-shadow:0 8px 20px rgba(80,60,98,.08);
+      backdrop-filter:blur(12px);
+    }
+    .hero-btn-secondary:hover{background:#fff;box-shadow:0 12px 26px rgba(80,60,98,.12)}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .card{
+      border:1px solid rgba(255,255,255,.9);
+      background:var(--card);
+      backdrop-filter:blur(16px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .work-card{padding:30px}
+    .work-card.accept{background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(223,250,239,.86))}
+    .work-card.reject{background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(255,229,235,.86))}
+    .work-card h3{font-family:"Mali";font-size:1.35rem;margin:0 0 18px}
+    .work-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+    .work-list li{
+      display:flex;align-items:flex-start;gap:11px;
+      padding:11px 13px;border-radius:15px;
+      background:rgba(255,255,255,.65);
+    }
+    .badge-icon{
+      flex:0 0 auto;
+      width:25px;height:25px;border-radius:50%;
+      display:grid;place-items:center;
+      font-weight:900;font-size:.8rem;
+    }
+    .accept .badge-icon{background:var(--mint-2);color:#24a471}
+    .reject .badge-icon{background:#ffe4e9;color:#dd5d72}
+    .conditional{
+      margin-top:22px;padding:24px;
+      display:flex;gap:16px;align-items:center;
+      background:linear-gradient(135deg,#fff7dc,#fff);
+    }
+    .conditional .big{font-size:2rem}
+
+    .files-wrap{
+      display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;align-items:center;
+    }
+    .file-art{
+      min-height:370px;padding:36px;
+      position:relative;overflow:hidden;
+      display:grid;place-items:center;
+    }
+    .file-art::before{
+      content:"";position:absolute;width:300px;height:300px;border-radius:50%;
+      background:linear-gradient(135deg,rgba(255,181,212,.5),rgba(184,167,255,.38));
+      filter:blur(6px);
+    }
+    .files-stack{display:flex;gap:18px;align-items:center;position:relative;z-index:2}
+    .file-icon{
+      width:145px;aspect-ratio:1/1.16;
+      border-radius:28px;
+      background:rgba(255,255,255,.92);
+      box-shadow:0 20px 40px rgba(81,61,99,.15);
+      display:grid;place-items:center;
+      transform:rotate(-5deg);
+      animation:fileFloat 4s ease-in-out infinite;
+    }
+    .file-icon:nth-child(2){transform:rotate(6deg);animation-delay:.7s}
+    @keyframes fileFloat{50%{translate:0 -9px}}
+    .file-icon strong{
+      font-family:"Mali";font-size:1.9rem;
+      padding:14px 18px;border-radius:16px;
+      background:linear-gradient(135deg,var(--pink-2),#fff);
+    }
+    .file-copy{padding:18px 8px}
+    .file-copy h3{font-family:"Mali";font-size:clamp(1.8rem,4vw,2.8rem);margin:0 0 14px}
+    .file-copy p{color:var(--muted);line-height:1.8;margin:8px 0}
+    .highlight-note{
+      margin-top:18px;
+      padding:15px 18px;border-radius:18px;
+      background:#fff0f6;
+      border:1px solid rgba(255,139,185,.18);
+      font-weight:700;
+      color:#a85a7b;
+    }
+
+    .voice-toggle{
+      margin:0 auto 26px;
+      display:flex;gap:7px;padding:7px;
+      width:max-content;max-width:100%;
+      border-radius:999px;background:#fff;
+      border:1px solid var(--line);
+      box-shadow:0 8px 24px rgba(82,61,97,.08);
+    }
+    .voice-toggle button{
+      border:0;background:transparent;color:var(--muted);
+      padding:10px 20px;border-radius:999px;cursor:pointer;font-weight:700;
+      transition:.22s;
+    }
+    .voice-toggle button.active{
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      color:white;box-shadow:0 8px 16px rgba(185,133,224,.2);
+    }
+
+    .character-rail{
+      display:flex;
+      gap:12px;
+      overflow:auto;
+      padding:10px 5px 20px;
+      scrollbar-width:none;
+      justify-content:center;
+    }
+    .character-rail::-webkit-scrollbar{display:none}
+
+    .char-tab{
+      flex:0 0 auto;
+      min-width:106px;
+      max-width:124px;
+      border:1px solid rgba(92,70,110,.08);
+      background:rgba(255,255,255,.72);
+      cursor:pointer;
+      opacity:.72;
+      filter:saturate(.82);
+      transform:translateY(0) scale(.97);
+      transition:.24s cubic-bezier(.2,.8,.2,1);
+      padding:10px 10px 10px;
+      border-radius:22px;
+      box-shadow:0 9px 22px rgba(77,55,91,.06);
+      backdrop-filter:blur(10px);
+      overflow:visible;
+    }
+    .char-tab:hover{
+      opacity:.92;
+      filter:saturate(.96);
+      transform:translateY(-3px) scale(.99);
+      box-shadow:0 14px 28px rgba(77,55,91,.10);
+    }
+    .char-tab.active{
+      opacity:1;
+      filter:none;
+      transform:translateY(-3px) scale(1);
+      border-color:rgba(255,145,184,.42);
+      background:rgba(255,255,255,.96);
+      box-shadow:
+        0 0 0 3px rgba(255,145,184,.10),
+        0 14px 30px rgba(100,71,112,.12);
+    }
+
+    .char-icon-wrap{
+      position:relative;
+      width:70px;
+      height:70px;
+      margin:0 auto 8px;
+      display:grid;
+      place-items:center;
+      overflow:visible;
+    }
+    .char-icon-main{
+      position:relative;
+      width:70px;
+      height:70px;
+      border-radius:22px;
+      overflow:hidden;
+      background:linear-gradient(145deg,#fff0f6,#eee8ff);
+      border:3px solid #fff;
+      box-shadow:0 8px 18px rgba(77,55,91,.13);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:"Mali";
+      font-size:1.08rem;
+      font-weight:800;
+      color:#9b6f89;
+    }
+    .char-icon-main img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:50% 50%;
+      display:block;
+      margin:auto;
+      transform:scale(1.03);
+      transform-origin:center center;
+    }
+    .char-icon-badge{
+      position:absolute;
+      right:-7px;
+      bottom:-7px;
+      width:28px;
+      height:28px;
+      min-width:28px;
+      padding:0;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--pink),#ff8db3);
+      color:#fff;
+      border:2px solid #fff;
+      box-shadow:0 10px 20px rgba(255,120,173,.24);
+      font-size:.72rem;
+      font-weight:900;
+      line-height:1;
+      z-index:3;
+    }
+
+    .char-tab-title{
+      display:block;
+      text-align:center;
+      font-size:.82rem;
+      font-weight:800;
+      line-height:1.35;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      color:var(--text);
+    }
+    .char-tab-meta{
+      display:block;
+      text-align:center;
+      margin-top:2px;
+      font-size:.72rem;
+      line-height:1.3;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .char-tab:not(:has(.char-tab-meta)) .char-tab-title{
+      margin-bottom:1px;
+    }
+
+    .sample-shell{position:relative}
+    .sample-nav{
+      position:absolute;left:-18px;right:-18px;top:50%;translate:0 -50%;
+      display:flex;justify-content:space-between;pointer-events:none;
+      z-index:4;
+    }
+    .arrow-btn{
+      pointer-events:auto;
+      width:48px;height:48px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.95);
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(12px);
+      box-shadow:0 10px 28px rgba(71,50,89,.12);
+      cursor:pointer;font-size:1.35rem;font-weight:800;color:#6f637a;
+      transition:.2s;
+    }
+    .arrow-btn:hover{transform:scale(1.07)}
+    .empty{
+      padding:42px;text-align:center;color:var(--muted)
+    }
+
+    /* ===== Voice sample card ===== */
+    .sample-card{
+      display:grid;
+      grid-template-columns:minmax(210px,.72fr) minmax(0,1.28fr);
+      grid-template-areas:
+        "character media"
+        "project project";
+      align-items:stretch;
+      gap:22px;
+      min-height:0;
+      padding:22px;
+      overflow:hidden;
+    }
+    .sample-character-pane{
+      grid-area:character;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .sample-character-carousel{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height:100%;
+    }
+    .sample-character-card{
+      flex:1;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+      padding:0;
+      animation:sampleCharCardIn .34s cubic-bezier(.16,1,.3,1);
+    }
+    @keyframes sampleCharCardIn{
+      from{opacity:.25;transform:translateX(12px) scale(.985)}
+      to{opacity:1;transform:none}
+    }
+    .sample-character-visual{
+      flex:1;
+      min-height:310px;
+      aspect-ratio:1/1;
+      border-radius:24px;
+      background:linear-gradient(160deg,#fff0f6,#f1edff);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      box-shadow:0 14px 28px rgba(87,66,106,.08);
+      padding:0;
+    }
+    .sample-character-visual::after{
+      content:"";
+      position:absolute;
+      inset:auto 12% 0;
+      height:24%;
+      background:radial-gradient(ellipse,rgba(141,111,158,.15),transparent 68%);
+      filter:blur(8px);
+      pointer-events:none;
+    }
+    .sample-character-visual img{
+      width:100%;
+      height:100%;
+      min-width:0;
+      min-height:0;
+      max-width:100%;
+      max-height:100%;
+      object-fit:cover;
+      object-position:50% 50%;
+      position:relative;
+      z-index:1;
+      border-radius:0;
+      display:block;
+      margin:auto;
+      transform:scale(1.02);
+      transform-origin:center center;
+    }
+    .sample-character-placeholder{
+      font-size:3.6rem;
+      opacity:.5;
+      width:100%;
+      height:100%;
+      display:grid;
+      place-items:center;
+    }
+    .sample-character-name{
+      text-align:center;
+      font-family:"Mali";
+      font-size:clamp(1.15rem,2.5vw,1.55rem);
+      font-weight:700;
+      line-height:1.25;
+      padding:10px 12px 4px;
+    }
+    .sample-char-nav{
+      width:38px;
+      height:38px;
+      flex:0 0 38px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.95);
+      background:rgba(255,255,255,.92);
+      color:#6f637a;
+      box-shadow:0 10px 22px rgba(71,50,89,.10);
+      cursor:pointer;
+      font-size:1.2rem;
+      font-weight:800;
+      display:grid;
+      place-items:center;
+      transition:.2s;
+    }
+    .sample-char-nav:hover{transform:scale(1.06)}
+    .sample-char-nav:active{transform:scale(.96)}
+    .sample-char-nav[hidden]{display:none}
+    .sample-character-dots{
+      display:flex;
+      justify-content:center;
+      gap:7px;
+      flex-wrap:wrap;
+      padding-top:0;
+      margin-top:-14px;
+      margin-bottom:12px;
+    }
+    .sample-character-dot{
+      width:10px;
+      height:10px;
+      border:0;
+      border-radius:50%;
+      background:rgba(140,122,157,.24);
+      cursor:pointer;
+      transition:.2s;
+      padding:0;
+    }
+    .sample-character-dot.active{
+      width:24px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      box-shadow:0 6px 14px rgba(182,126,205,.22);
+    }
+    .sample-media-pane{
+      grid-area:media;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .sample-video-stage{
+      min-height:310px;
+      aspect-ratio:16/9;
+      border-radius:24px;
+      overflow:hidden;
+      position:relative;
+      background:
+        radial-gradient(circle at 20% 15%,rgba(255,145,184,.28),transparent 30%),
+        radial-gradient(circle at 85% 80%,rgba(170,149,255,.23),transparent 30%),
+        #26212d;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .sample-video-stage iframe,
+    .sample-video-stage video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      background:#17141b;
+    }
+    .sample-video-stage video{
+      object-fit:contain;
+    }
+    .sample-video-stage iframe{
+      color-scheme:dark;
+    }
+    .sample-media-bar{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:10px;
+    }
+    .sample-source-link{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.86);
+      border:1px solid var(--line);
+      color:var(--muted);
+      text-decoration:none;
+      font-size:.8rem;
+      font-weight:700;
+      box-shadow:0 6px 14px rgba(77,55,91,.05);
+      transition:transform .18s ease, color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .sample-source-link:hover{
+      color:var(--text);
+      background:#fff;
+      transform:translateY(-1px);
+      box-shadow:0 8px 18px rgba(77,55,91,.10);
+    }
+    .sample-source-link img{
+      width:16px;
+      height:16px;
+      object-fit:contain;
+      flex:0 0 16px;
+    }
+    .sample-project-footer{
+      grid-area:project;
+      margin-top:2px;
+      border-radius:20px;
+      padding:15px 18px;
+      background:linear-gradient(135deg,rgba(255,240,246,.96),rgba(242,238,255,.96));
+      border:1px solid rgba(255,255,255,.9);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .sample-project-footer strong{
+      font-family:"Mali";
+      font-size:clamp(1rem,2.2vw,1.3rem);
+      line-height:1.35;
+    }
+    .sample-no-clips{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      text-align:center;
+      color:rgba(255,255,255,.78);
+    }
+    .sample-card.sample-enter-right .sample-character-pane,
+    .sample-card.sample-enter-left .sample-character-pane{animation:sampleImagePop .55s .04s cubic-bezier(.16,1,.3,1) both}
+    .sample-card.sample-enter-right .sample-media-pane,
+    .sample-card.sample-enter-left .sample-media-pane{animation:sampleMetaIn .55s .1s cubic-bezier(.16,1,.3,1) both}
+    .sample-card.sample-enter-right .sample-project-footer,
+    .sample-card.sample-enter-left .sample-project-footer{animation:sampleMetaIn .55s .16s cubic-bezier(.16,1,.3,1) both}
+
+    .price-grid{
+      max-width:900px;
+      margin:0 auto;
+      display:grid;
+      gap:10px;
+      padding:14px;
+      border-radius:28px;
+      background:rgba(255,255,255,.58);
+      border:1px solid rgba(255,255,255,.88);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+    }
+    .price-card{
+      position:relative;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      align-items:center;
+      gap:20px;
+      min-height:84px;
+      padding:16px 20px;
+      border-radius:20px;
+      background:rgba(255,255,255,.68);
+      transition:.22s cubic-bezier(.2,.8,.2,1);
+      overflow:hidden;
+      text-decoration:none;
+      color:inherit;
+    }
+    .price-card > *{
+      position:relative;
+      z-index:1;
+    }
+    .price-card:nth-child(even){
+      background:rgba(250,246,255,.70);
+    }
+    .price-card:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,.94);
+      box-shadow:0 10px 24px rgba(87,66,106,.08);
+    }
+    .price-card.price-contact{
+      cursor:pointer;
+      background:linear-gradient(135deg,rgba(255,244,248,.88),rgba(244,240,255,.86));
+    }
+    .price-card.price-contact:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 28px rgba(105,75,122,.12);
+    }
+    .price-contact-hint{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:4px;
+      color:#a26b89;
+      font-size:.76rem;
+      font-weight:700;
+    }
+
+    .price-left{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+    }
+    .price-service{
+      font-family:"Mali";
+      font-weight:700;
+      font-size:1.06rem;
+      min-width:0;
+    }
+    .price-note{
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.5;
+      min-width:0;
+    }
+    .price-right{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:12px;
+      min-width:max-content;
+    }
+    .price-tail-icon{
+      width:38px;
+      height:38px;
+      flex:0 0 38px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#fff6d8,#ffe6a1);
+      border:1px solid rgba(216,172,65,.16);
+      box-shadow:0 7px 16px rgba(134,99,32,.08);
+      font-size:1.2rem;
+      line-height:1;
+    }
+    .price-contact .price-tail-icon{
+      background:linear-gradient(135deg,#fff0f6,#eee8ff);
+      border-color:rgba(191,133,191,.16);
+    }
+    .price-value{
+      font-family:"Mali";
+      font-size:clamp(1.16rem,2.5vw,1.55rem);
+      font-weight:800;
+      color:#bc658c;
+      margin:0;
+      text-align:right;
+      white-space:nowrap;
+    }
+    .commercial{
+      margin:18px auto 0;
+      max-width:900px;
+      padding:17px 20px;
+      text-align:center;
+      font-family:"Mali";
+      font-weight:800;
+      font-size:clamp(1.05rem,2.6vw,1.35rem);
+      background:linear-gradient(135deg,#fff1f6,#f2eeff);
+    }
+
+    .review-track-wrap{position:relative}
+    .review-track{
+      display:flex;
+      align-items:stretch;
+      gap:16px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      overscroll-behavior-x:contain;
+      padding:8px 0 22px;
+      scrollbar-width:none;
+    }
+    .review-track::before,
+    .review-track::after{
+      content:"";
+      flex:0 0 calc(50% - 8px);
+      pointer-events:none;
+    }
+    .review-track::-webkit-scrollbar{display:none}
+    .review{
+      --review-media-height:300px;
+      --review-card-width:320px;
+      flex:0 0 var(--review-card-width);
+      width:var(--review-card-width);
+      height:382px;
+      scroll-snap-align:center;
+      scroll-snap-stop:always;
+      overflow:hidden;
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      transition:
+        width .32s cubic-bezier(.16,1,.3,1),
+        opacity .35s ease,
+        transform .35s cubic-bezier(.16,1,.3,1),
+        box-shadow .35s ease;
+    }
+    .review img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center;
+      border-radius:22px;
+      background:#f1edf4;
+    }
+    .review .caption{
+      flex:1 1 auto;
+      min-height:58px;
+      padding:11px 8px 5px;
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.45;
+      overflow:hidden;
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:2;
+    }
+    .review-controls{display:flex;justify-content:center;gap:10px;margin-top:8px}
+    .review-controls button{position:static;translate:none}
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:minmax(0,620px);
+      justify-content:center;
+      gap:22px;
+    }
+    .contact-card{padding:30px}
+    .contact-person{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:20px;
+    }
+    .contact-person h3{font-family:"Mali";font-size:1.4rem;margin:0}
+    .voice-label{
+      font-size:.78rem;padding:7px 10px;border-radius:999px;
+      background:#fff;border:1px solid var(--line);color:var(--muted);font-weight:700;
+    }
+    .contact-links{display:grid;gap:10px}
+    .contact-link{
+      text-decoration:none;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:13px 14px;border-radius:17px;
+      background:white;border:1px solid var(--line);
+      transition:.18s ease;
+    }
+    .contact-link:hover{transform:translateX(3px)}
+    .contact-left{display:flex;align-items:center;gap:10px;font-weight:700}
+    .contact-left img{width:22px;height:22px}
+    .contact-arrow{color:#ad9ab9;font-weight:900}
+
+    /* Motion system */
+    .topbar{animation:topbarDrop .65s cubic-bezier(.16,1,.3,1) both}
+    .hero h1{animation:heroReveal .75s .12s cubic-bezier(.16,1,.3,1) both}
+    .hero-desc{animation:heroReveal .7s .2s cubic-bezier(.16,1,.3,1) both}
+    .mascot-stage{animation:heroMascotIn .82s .26s cubic-bezier(.16,1,.3,1) both}
+    .status{animation:heroReveal .65s .42s cubic-bezier(.16,1,.3,1) both}
+
+    @keyframes topbarDrop{from{opacity:0;transform:translate(-50%,-16px) scale(.97)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+    @keyframes heroReveal{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+    @keyframes heroMascotIn{from{opacity:0;transform:translateY(28px) scale(.94)}to{opacity:1;transform:none}}
+
+    .card{transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s ease,border-color .32s ease}
+    .work-card:hover,.conditional:hover,.file-art:hover,.contact-card:hover{transform:translateY(-3px);box-shadow:0 24px 60px rgba(92,70,110,.16)}
+    .arrow-btn:active,.voice-toggle button:active,.char-tab:active,.contact-link:active{transform:scale(.96)}
+
+    .work-list li{opacity:0;transform:translateX(-12px);transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);transition-delay:var(--item-delay,0ms)}
+    .work-card.visible .work-list li{opacity:1;transform:none}
+
+    .sample-card{transition:opacity .18s ease,transform .18s ease,box-shadow .32s ease}
+    .sample-card.sample-exit-left{opacity:0;transform:translateX(-34px) scale(.985)}
+    .sample-card.sample-exit-right{opacity:0;transform:translateX(34px) scale(.985)}
+    .sample-card.sample-enter-right{animation:sampleEnterRight .46s cubic-bezier(.16,1,.3,1)}
+    .sample-card.sample-enter-left{animation:sampleEnterLeft .46s cubic-bezier(.16,1,.3,1)}
+    @keyframes sampleEnterRight{from{opacity:0;transform:translateX(42px) scale(.98)}to{opacity:1;transform:none}}
+    @keyframes sampleEnterLeft{from{opacity:0;transform:translateX(-42px) scale(.98)}to{opacity:1;transform:none}}
+    @keyframes sampleImagePop{from{opacity:0;transform:scale(.94) rotate(-1deg)}to{opacity:1;transform:none}}
+    @keyframes sampleMetaIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+    .char-tab{will-change:transform,opacity,filter}
+    .char-tab.active{animation:charActive .36s cubic-bezier(.16,1,.3,1)}
+    @keyframes charActive{
+      0%{transform:translateY(0) scale(.94)}
+      60%{transform:translateY(-4px) scale(1.04)}
+      100%{transform:translateY(-3px) scale(1)}
+    }
+
+    .review{opacity:.58;transform:scale(.94);cursor:zoom-in;position:relative}
+    .review.is-centered{opacity:1;transform:scale(1)}
+    .review img{transition:transform .5s cubic-bezier(.16,1,.3,1)}
+    .review.is-centered img{transform:scale(1.015)}
+    .review-zoom-hint{
+      position:absolute;
+      top:16px;
+      right:16px;
+      z-index:4;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.88);
+      color:var(--text);
+      font-size:.82rem;
+      box-shadow:0 6px 14px rgba(72,52,86,.14);
+      opacity:0;
+      transform:scale(.9);
+      transition:opacity .2s ease, transform .2s ease;
+      pointer-events:none;
+    }
+    .review:hover .review-zoom-hint,
+    .review.is-centered .review-zoom-hint{opacity:.92;transform:scale(1)}
+
+    .back-to-top{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:90;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      min-height:48px;
+      padding:7px 15px 7px 7px;
+      border:1px solid rgba(255,255,255,.9);
+      border-radius:999px;
+      background:rgba(255,255,255,.88);
+      color:var(--text);
+      box-shadow:0 14px 34px rgba(72,52,86,.14);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      font-family:"Mali";
+      font-size:.82rem;
+      font-weight:700;
+      cursor:pointer;
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transform:translateY(12px) scale(.96);
+      transition:
+        opacity .24s ease,
+        transform .28s cubic-bezier(.16,1,.3,1),
+        visibility .24s ease,
+        box-shadow .2s ease;
+    }
+    .back-to-top.is-visible{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:none;
+    }
+    .back-to-top:hover{
+      transform:translateY(-2px) scale(1);
+      box-shadow:0 18px 42px rgba(72,52,86,.18);
+    }
+    .back-to-top:focus-visible{
+      outline:3px solid rgba(215,143,183,.28);
+      outline-offset:3px;
+    }
+    .back-to-top-icon{
+      width:34px;
+      height:34px;
+      flex:0 0 34px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--pink),var(--purple));
+      color:#fff;
+      font-size:1.1rem;
+      line-height:1;
+      box-shadow:0 7px 16px rgba(187,125,204,.2);
+    }
+    @media (max-width:900px){
+      .back-to-top{
+        right:14px;
+        bottom:16px;
+        padding:6px;
+        min-height:46px;
+      }
+      .back-to-top-label{display:none}
+    }
+
+    .section,#contact{scroll-margin-top:86px}
+
+    .fade-up{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+    .fade-up.visible{opacity:1;transform:none}
+
+    /* Loading skeletons */
+    .skeleton-line{
+      height:44px;
+      border-radius:15px;
+      background:linear-gradient(110deg,rgba(255,240,246,.7) 25%,rgba(255,255,255,.95) 50%,rgba(243,238,255,.7) 75%);
+      background-size:200% 100%;
+      animation:skeletonSweep 1.3s ease-in-out infinite;
+    }
+    .skeleton-box{
+      min-height:220px;
+      border-radius:22px;
+      background:linear-gradient(110deg,rgba(255,240,246,.65) 25%,rgba(255,255,255,.92) 50%,rgba(243,238,255,.65) 75%);
+      background-size:200% 100%;
+      animation:skeletonSweep 1.3s ease-in-out infinite;
+    }
+    @keyframes skeletonSweep{
+      0%{background-position:100% 0}
+      100%{background-position:-100% 0}
+    }
+
+    /* Review Lightbox */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      z-index:1100;
+      display:grid;
+      place-items:center;
+      padding:20px;
+      background:rgba(30,22,38,.76);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      opacity:0;
+      transition:opacity .24s ease;
+    }
+    .lightbox[hidden]{display:none !important}
+    .lightbox.is-open{opacity:1}
+    .lightbox-panel{
+      position:relative;
+      width:min(92vw,860px);
+      max-height:90dvh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      transform:scale(.95);
+      transition:transform .26s cubic-bezier(.16,1,.3,1);
+    }
+    .lightbox.is-open .lightbox-panel{transform:scale(1)}
+    .lightbox-img-wrap{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      max-height:74dvh;
+      width:100%;
+    }
+    .lightbox-img-wrap img{
+      max-width:100%;
+      max-height:74dvh;
+      width:auto;
+      height:auto;
+      object-fit:contain;
+      border-radius:22px;
+      background:#fff;
+      box-shadow:0 24px 70px rgba(0,0,0,.35);
+    }
+    .lightbox-caption{
+      max-width:680px;
+      padding:10px 18px;
+      border-radius:16px;
+      background:rgba(255,255,255,.94);
+      color:var(--text);
+      font-size:.92rem;
+      line-height:1.55;
+      text-align:center;
+      box-shadow:0 10px 26px rgba(0,0,0,.18);
+    }
+    .lightbox-caption:empty{display:none}
+    .lightbox-close{
+      position:fixed;
+      top:18px;
+      right:18px;
+      width:44px;
+      height:44px;
+      border:0;
+      border-radius:50%;
+      background:rgba(255,255,255,.94);
+      color:var(--text);
+      font-size:1.6rem;
+      line-height:1;
+      cursor:pointer;
+      box-shadow:0 10px 26px rgba(0,0,0,.22);
+      transition:transform .18s ease;
+    }
+    .lightbox-close:hover{transform:scale(1.06)}
+    .lightbox-nav{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .lightbox-counter{
+      color:rgba(255,255,255,.9);
+      font-size:.86rem;
+      font-weight:700;
+      min-width:54px;
+      text-align:center;
+    }
+
+    /* Footer */
+    .site-footer{
+      padding:36px 0 48px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.86rem;
+      border-top:1px solid var(--line);
+      background:rgba(255,255,255,.46);
+    }
+    .site-footer-brand{
+      font-family:"Mali",sans-serif;
+      font-weight:700;
+      font-size:1.05rem;
+      color:var(--text);
+      margin-bottom:6px;
+    }
+    .site-footer-brand span{color:var(--pink)}
+    .site-footer-links{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:8px 16px;
+      margin:12px 0;
+    }
+    .site-footer-links a{
+      text-decoration:none;
+      font-weight:600;
+      transition:color .18s ease;
+    }
+    .site-footer-links a:hover{color:var(--text)}
+
+    @media (max-width: 900px){
+      .nav{display:none}
+      .nav-cta{display:none}
+      .mobile-menu-btn{display:flex}
+      .grid-2,.files-wrap,.contact-grid{grid-template-columns:1fr}
+      .price-grid{max-width:760px}
+      .price-card{
+        grid-template-columns:minmax(0,1fr) auto;
+        gap:16px;
+        padding:15px 17px;
+      }
+      .price-note{text-align:left}
+      .sample-card{
+        grid-template-columns:1fr;
+        grid-template-areas:"character" "media" "project";
+        gap:16px;
+      }
+      .sample-character-visual{min-height:280px}
+      .sample-character-visual img{min-height:0;max-height:none}
+      .sample-char-nav{width:36px;height:36px;flex-basis:36px}
+      .sample-character-pane{padding-bottom:8px}
+      .sample-video-stage{min-height:0}
+      .sample-nav{
+        position:static;
+        translate:none;
+        justify-content:center;
+        gap:12px;
+        margin-top:14px;
+        pointer-events:auto;
+      }
+      .file-art{min-height:310px}
+      .character-rail{justify-content:flex-start;padding-inline:2px}
+      .char-tab{min-width:100px;max-width:112px;padding:9px 8px 9px;border-radius:19px}
+      .char-icon-wrap{width:62px;height:62px;margin-bottom:7px}
+      .char-icon-main{width:62px;height:62px;border-radius:19px}
+      .char-icon-badge{right:-5px;bottom:-5px;width:24px;height:24px;min-width:24px;padding:0;font-size:.64rem}
+      .char-tab-title{font-size:.74rem}
+      .char-tab-meta{font-size:.64rem}
+    }
+
+    @media (max-width: 600px){
+      .section{padding:67px 0}
+      .shell{width:min(100% - 22px,1140px)}
+      .topbar{top:9px}
+      .brand{font-size:.84rem}
+      .hero{
+        min-height:100svh;
+        padding:74px 0 22px;
+      }
+      .hero-actions{margin-top:12px;gap:8px}
+      .hero-btn{padding:10px 18px;font-size:.84rem}
+      .hero h1{
+        font-size:clamp(2.05rem,11vw,3.7rem);
+        margin-bottom:4px;
+      }
+      .hero-desc{
+        margin:5px auto 6px;
+        font-size:.86rem;
+        line-height:1.45;
+        max-width:92%;
+      }
+      .mascot-stage{
+        min-height:0;
+        max-height:36svh;
+        margin-top:0;
+      }
+      .mascot-pair{min-height:0;width:100%;margin-bottom:-2px}
+      .mascot{max-height:min(280px,34svh)}
+      .mascot.male{margin-right:-18px}
+      .mascot.female{margin-left:-18px}
+
+      /* จัด MP3 / WAV ให้อยู่กึ่งกลางจริงบนมือถือ */
+      .file-art{
+        min-height:280px;
+        padding:24px 14px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+
+      /* เรทราคาบนมือถือ: รายการด้านบน / ราคาด้านล่าง */
+      .price-grid{
+        padding:10px;
+        gap:10px;
+        border-radius:22px;
+      }
+      .price-card{
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+        gap:8px;
+        min-height:0;
+        padding:16px;
+        border-radius:18px;
+      }
+      .price-left{
+        display:flex;
+        flex-direction:column;
+        gap:5px;
+      }
+      .price-service{
+        font-size:1rem;
+        line-height:1.4;
+      }
+      .price-right{
+        width:100%;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+      }
+      .price-value{
+        font-size:1.08rem;
+        text-align:left;
+        white-space:normal;
+      }
+      .price-tail-icon{
+        width:32px;
+        height:32px;
+        flex:0 0 32px;
+        border-radius:11px;
+        font-size:1rem;
+      }
+      .price-note{
+        font-size:.78rem;
+        line-height:1.5;
+      }
+      .price-contact-hint{
+        margin-top:2px;
+        font-size:.74rem;
+      }
+      .commercial{
+        margin-top:14px;
+        padding:14px 16px;
+      }
+
+      .sample-character-visual{min-height:150px}
+      .sample-character-visual img{min-height:0;max-height:none}
+      .sample-character-name{font-size:.98rem}
+      .sample-char-nav{width:32px;height:32px;flex-basis:32px;font-size:1rem}
+      .sample-character-dots{
+        gap:6px;
+        margin-top:-14px;
+        margin-bottom:18px;
+      }
+      .sample-character-pane{padding-bottom:10px}
+
+      .files-stack{
+        width:100%;
+        justify-content:center;
+        align-items:center;
+        gap:10px;
+        margin-inline:auto;
+      }
+      .file-icon{
+        width:clamp(104px,34vw,122px);
+        flex:0 0 auto;
+      }
+      .file-icon strong{
+        font-size:1.55rem;
+        padding:12px 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto !important;animation:none !important;transition:none !important}
+      .fade-up{opacity:1;transform:none;filter:none}
+      .review{opacity:1;transform:none}
+      .sample-card{opacity:1 !important;transform:none !important}
+    }
+
+    @media (max-height: 720px){
+      .hero{padding-top:72px;padding-bottom:10px}
+      .hero h1{font-size:clamp(2.1rem,6vw,4.4rem)}
+      .hero-desc{margin:4px auto 5px;font-size:.88rem}
+      .mascot-stage{max-height:34svh}
+      .mascot{max-height:32svh}
+      .status{padding:8px 14px;font-size:.9rem}
+    }
+
+    @media (max-width:600px) and (max-height:720px){
+      .hero{padding-top:64px;padding-bottom:8px}
+      .hero h1{font-size:clamp(1.9rem,10vw,3.2rem)}
+      .hero-desc{font-size:.8rem;line-height:1.35}
+      .mascot-stage{max-height:31svh}
+      .mascot{max-height:29svh}
+      .status{padding:7px 12px;font-size:.84rem}
+    }
+
+
+    .img-load-wrap{
+      position:relative;
+      display:block;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      isolation:isolate;
+      background:transparent;
+    }
+    .img-load-wrap > img[data-fancy-load]{
+      opacity:0;
+      transition:opacity .38s ease, transform .38s ease, filter .38s ease;
+      will-change:opacity, transform;
+    }
+    .img-load-wrap.is-loaded > img[data-fancy-load]{
+      opacity:1;
+    }
+    .img-load-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,#fff1f6 0%,#f4efff 50%,#fff1f6 100%);
+      overflow:hidden;
+      z-index:2;
+      pointer-events:none;
+      transition:opacity .35s ease, visibility .35s ease;
+    }
+    .img-load-overlay::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      transform:translateX(-100%);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);
+      animation:imgShimmer 1.15s linear infinite;
+    }
+    .img-load-wrap.is-loaded .img-load-overlay{
+      opacity:0;
+      visibility:hidden;
+    }
+    @keyframes imgShimmer{
+      100%{transform:translateX(100%)}
+    }
+
+    .char-icon-main > .img-load-wrap{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border-radius:inherit;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .char-icon-main > .img-load-wrap > img[data-fancy-load]{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:50% 50%;
+      margin:auto;
+      transform:scale(1.03);
+      transform-origin:center center;
+    }
+    .sample-character-visual > .img-load-wrap{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border-radius:inherit;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .sample-character-visual > .img-load-wrap > img[data-fancy-load]{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:50% 50%;
+      display:block;
+      margin:auto;
+      transform:scale(1.02);
+      transform-origin:center center;
+    }
+    .review .img-load-wrap{
+      width:100%;
+      height:var(--review-media-height);
+      flex:0 0 var(--review-media-height);
+      border-radius:22px;
+      background:#f1edf4;
+    }
+    .review .img-load-wrap > img[data-fancy-load]{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center;
+      border-radius:22px;
+      background:#f1edf4;
+    }
+
+
+    .mascot-pair > .img-load-wrap--mascot{
+      width:50%;
+      max-width:360px;
+      height:auto;
+      max-height:min(380px,38svh);
+      flex:0 1 50%;
+      overflow:visible;
+      isolation:auto;
+      background:transparent;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      line-height:0;
+    }
+    .mascot-pair > .img-load-wrap--mascot > .mascot{
+      width:100%;
+      max-width:none;
+      max-height:min(380px,38svh);
+    }
+    .img-load-wrap--mascot .img-load-overlay{
+      background:transparent;
+      overflow:visible;
+    }
+    .img-load-wrap--mascot .img-load-overlay::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:28px;
+      height:28px;
+      inset:auto;
+      margin:-14px 0 0 -14px;
+      border-radius:50%;
+      border:3px solid rgba(255,145,184,.16);
+      border-top-color:rgba(255,145,184,.82);
+      background:none;
+      transform:none;
+      animation:mascotLoadSpin .8s linear infinite;
+    }
+    @keyframes mascotLoadSpin{to{transform:rotate(360deg)}}
+
+    @media (max-width:600px){
+      .mascot-pair > .img-load-wrap--mascot{
+        max-height:min(280px,34svh);
+      }
+      .mascot-pair > .img-load-wrap--mascot > .mascot{
+        max-height:min(280px,34svh);
+      }
+    }
+
+
+    @media (max-width:900px){
+      .mobile-menu-btn{
+        pointer-events:auto;
+        touch-action:manipulation;
+      }
+      .mobile-drawer,
+      .mobile-drawer-backdrop{
+        -webkit-tap-highlight-color:transparent;
+      }
+      .fade-up.visible{
+        opacity:1 !important;
+        transform:none !important;
+      }
+    }
+
+
+    .voice-toggle button{
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    @keyframes sampleMobileSwap{
+      0%{opacity:.55;transform:translateY(5px) scale(.992)}
+      100%{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    @media (max-width:900px), (hover:none) and (pointer:coarse){
+      #sampleCard.sample-mobile-swap{
+        animation:sampleMobileSwap .22s ease-out both;
+      }
+    }
+
+
+    @media (max-width:600px){
+      .review{
+        --review-media-height:240px;
+        height:318px;
+        --review-card-width:272px;
+      }
+      .review .caption{
+        min-height:54px;
+        font-size:.82rem;
+        padding:10px 7px 4px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div class="brand">มาม่าทอด <span style="color:var(--pink)">&</span> Naritzap</div>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <a href="#works">ประเภทงาน</a>
+      <a href="#files">ไฟล์งาน</a>
+      <a href="#samples">ตัวอย่างเสียง</a>
+      <a href="#pricing">เรทราคา</a>
+      <a href="#reviews">รีวิว</a>
+    </nav>
+    <a class="nav-cta" href="#contact">ติดต่อเรา ♡</a>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" type="button"
+      aria-label="เปิดเมนู" aria-controls="mobileDrawer" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" hidden></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="mobile-drawer-head">
+      <div class="mobile-drawer-brand">มาม่าทอด <span>&</span> Naritzap</div>
+      <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="ปิดเมนู">×</button>
+    </div>
+    <nav class="mobile-drawer-nav" aria-label="เมนูมือถือ">
+      <a href="#home"><span>หน้าแรก</span><b>01</b></a>
+      <a href="#works"><span>ประเภทงาน</span><b>02</b></a>
+      <a href="#files"><span>ไฟล์งาน</span><b>03</b></a>
+      <a href="#samples"><span>ตัวอย่างเสียง</span><b>04</b></a>
+      <a href="#pricing"><span>เรทราคา</span><b>05</b></a>
+      <a href="#reviews"><span>รีวิวจากลูกค้า</span><b>06</b></a>
+      <a href="#contact" class="drawer-contact"><span>ช่องทางการติดต่อ</span><b>♡</b></a>
+    </nav>
+  </aside>
+
+  <button id="backToTop" class="back-to-top" type="button"
+    aria-label="กลับขึ้นไปด้านบนสุด" aria-hidden="true" tabindex="-1">
+    <span class="back-to-top-icon" aria-hidden="true">↑</span>
+    <span class="back-to-top-label">กลับขึ้นไป</span>
+  </button>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <h1>คอมมิชชั่นพากย์เสียง<br><span class="amp">ชาย & หญิง</span></h1>
+        <p class="hero-desc">งานพากย์ที่ตั้งใจใส่คาแรกเตอร์ให้เข้ากับโปรเจกต์ของคุณ พร้อมคุยรายละเอียดก่อนเริ่มงาน</p>
+
+        <div class="mascot-stage">
+          <div class="mascot-halo"></div>
+          <div id="mascotPair" class="mascot-pair" hidden>
+            <img id="mascotMale" class="mascot male" alt="มาสคอต มาม่าทอด" data-fancy-load>
+            <img id="mascotFemale" class="mascot female" alt="มาสคอต Naritzap" data-fancy-load>
+          </div>
+</div>
+
+        <div class="status" id="statusBadge">
+          <span>สถานะ :</span>
+          <span class="status-dot"></span>
+          <span id="statusText">เปิดรับคอมมิชชั่น</span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="hero-btn hero-btn-primary" href="#samples">🎧 ฟังตัวอย่างเสียง</a>
+          <a class="hero-btn hero-btn-secondary" href="#contact">ติดต่อจ้างงาน ♡</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="works">
+      <div class="shell">
+        <h2 class="section-title fade-up">ประเภทงานที่รับ</h2>
+        <p class="section-sub fade-up">เช็กประเภทงานคร่าว ๆ ก่อนทักหาเราได้เลย ถ้างานของคุณไม่ตรงหมวด สามารถส่งรายละเอียดมาสอบถามก่อนได้</p>
+
+        <div class="grid-2">
+          <article class="card work-card accept fade-up">
+            <h3>✓ งานที่รับ</h3>
+            <ul class="work-list" id="acceptList">
+              <li class="skeleton-line"></li>
+              <li class="skeleton-line"></li>
+              <li class="skeleton-line"></li>
+            </ul>
+          </article>
+
+          <article class="card work-card reject fade-up">
+            <h3>× งานที่ไม่รับ</h3>
+            <ul class="work-list" id="rejectList">
+              <li class="skeleton-line"></li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="card conditional fade-up">
+          <div class="big">🔞</div>
+          <div>
+            <strong>งาน R-18+ หรืออื่น ๆ</strong>
+            <div style="color:var(--muted);margin-top:4px">สามารถทักสอบถามก่อนได้</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="files">
+      <div class="shell">
+        <div class="files-wrap">
+          <div class="card file-art fade-up">
+            <div class="files-stack">
+              <div class="file-icon"><strong>MP3</strong></div>
+              <div class="file-icon"><strong>WAV</strong></div>
+            </div>
+          </div>
+
+          <div class="file-copy fade-up">
+            <h3>ไฟล์งานที่ลูกค้าจะได้รับ</h3>
+            <p>รองรับไฟล์ <b>MP3 / WAV</b> และเราจะส่งทั้ง <b>ไฟล์ดิบ</b> กับ <b>ไฟล์ที่มิกซ์ให้แล้ว</b> ผ่านทาง Google Drive</p>
+            <div class="highlight-note">✦ ขึ้นอยู่กับลูกค้าว่าต้องการไฟล์แบบไหน</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="samples">
+      <div class="shell">
+        <h2 class="section-title fade-up">ตัวอย่างเสียง</h2>
+        <p class="section-sub fade-up">เลือกเสียงผู้ชายหรือเสียงผู้หญิง แล้วเลื่อนดูตัวละครและโปรเจกต์ได้แบบวนต่อเนื่อง</p>
+
+        <div class="voice-toggle fade-up" role="tablist" aria-label="เลือกประเภทเสียง">
+          <button class="active" data-gender="male" type="button" role="tab" aria-selected="true">เสียงผู้ชาย</button>
+          <button data-gender="female" type="button" role="tab" aria-selected="false">เสียงผู้หญิง</button>
+        </div>
+
+        <div id="characterRail" class="character-rail fade-up"></div>
+
+        <div class="sample-shell fade-up">
+          <article id="sampleCard" class="card sample-card">
+            <div class="skeleton-box" style="grid-column:1 / -1;min-height:320px"></div>
+          </article>
+          <div class="sample-nav">
+            <button id="prevSample" class="arrow-btn" type="button" aria-label="ตัวอย่างก่อนหน้า">‹</button>
+            <button id="nextSample" class="arrow-btn" type="button" aria-label="ตัวอย่างถัดไป">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="shell">
+        <h2 class="section-title fade-up">เรทราคา</h2>
+        <p class="section-sub fade-up">ราคาเริ่มต้นอาจเปลี่ยนตามความยาว ความยาก จำนวนรอบแก้ และรายละเอียดของโปรเจกต์</p>
+        <div id="priceGrid" class="price-grid">
+          <div class="skeleton-line" style="height:78px"></div>
+          <div class="skeleton-line" style="height:78px"></div>
+          <div class="skeleton-line" style="height:78px"></div>
+        </div>
+        <div class="card commercial fade-up">!! ถ้าใช้เชิงพาณิชย์ X2 !!</div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="shell">
+        <h2 class="section-title fade-up">รีวิวจากลูกค้า</h2>
+        <p class="section-sub fade-up">เลื่อนดูรีวิวได้หลายรูป หรือกดที่ภาพเพื่อขยายดูรายละเอียดเต็มจอ</p>
+        <div class="review-track-wrap fade-up">
+          <div id="reviewTrack" class="review-track">
+            <article class="card review is-centered"><div class="skeleton-box" style="height:100%"></div></article>
+          </div>
+          <div class="review-controls">
+            <button id="reviewPrev" class="arrow-btn" type="button" aria-label="รีวิวก่อนหน้า">‹</button>
+            <button id="reviewNext" class="arrow-btn" type="button" aria-label="รีวิวถัดไป">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="shell">
+        <h2 class="section-title fade-up">ช่องทางการติดต่อ</h2>
+        <p class="section-sub fade-up">กดช่องทางที่สะดวกเพื่อไปยังหน้าโปรไฟล์ของเราได้ทันที</p>
+        <div id="contactGrid" class="contact-grid">
+          <div class="card contact-card"><div class="skeleton-line" style="height:140px"></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="site-footer-brand">มาม่าทอด <span>&</span> Naritzap</div>
+      <div>คอมมิชั่นพากย์เสียงชาย &amp; หญิง — พร้อมคุยรายละเอียดก่อนเริ่มงาน</div>
+      <nav class="site-footer-links" aria-label="ลิงก์ท้ายหน้า">
+        <a href="#home">หน้าแรก</a>
+        <a href="#works">ประเภทงาน</a>
+        <a href="#samples">ตัวอย่างเสียง</a>
+        <a href="#pricing">เรทราคา</a>
+        <a href="#reviews">รีวิว</a>
+        <a href="#contact">ติดต่อเรา</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="reviewLightbox" hidden role="dialog" aria-modal="true" aria-label="ดูรูปรีวิวเต็มจอ">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="ปิดหน้าต่าง">×</button>
+    <div class="lightbox-panel">
+      <div class="lightbox-img-wrap">
+        <img id="lightboxImg" src="" alt="รูปรีวิวลูกค้า">
+      </div>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+      <div class="lightbox-nav">
+        <button class="arrow-btn" id="lightboxPrev" type="button" aria-label="รูปรีวิวก่อนหน้า">‹</button>
+        <span class="lightbox-counter" id="lightboxCounter"></span>
+        <button class="arrow-btn" id="lightboxNext" type="button" aria-label="รูปรีวิวถัดไป">›</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // =========================================================
+    // GOOGLE SHEET CONFIG
+    // เว็บดึงข้อมูลสดจากลิงก์ Google Sheet นี้โดยตรง
+    // =========================================================
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1Iy1KMWcjklzKBaPtIg6oYUW_mWnD5WtWMfL-J-rlZYk/edit?usp=sharing";
+
+    function getSpreadsheetId(url){
+      const match = String(url).match(/\/spreadsheets\/d\/([^/]+)/);
+      return match ? match[1] : "";
+    }
+
+    const SHEET_ID = getSpreadsheetId(SHEET_URL);
+
+    const TABS = {
+      // settings = null หมายถึงอ่านจากชีตแรกของลิงก์โดยตรง
+      settings: null,
+      workTypes: "WORK_TYPES",
+      samples: "SAMPLES",
+      pricing: "PRICING",
+      reviews: "REVIEWS",
+      contacts: "CONTACTS"
+    };
+
+    const fallback = {
+      settings: [
+        { status:"เปิดรับคอมมิชั่น", mascot_male_url:"", mascot_female_url:"" }
+      ],
+      workTypes: [
+        { group:"accept", label:"อนิเมชั่น 2D/3D", order:"1", active:"TRUE" },
+        { group:"accept", label:"ออริจินอล คาแรคเตอร์", order:"2", active:"TRUE" },
+        { group:"accept", label:"บรรยาย", order:"3", active:"TRUE" },
+        { group:"accept", label:"โปรเจค/คลิปฝึกพากย์", order:"4", active:"TRUE" },
+        { group:"reject", label:"สื่อสิ่งผิดกฎหมายทุกชนิด", order:"1", active:"TRUE" }
+      ],
+      samples: [
+        { sample_id:"m1", gender:"male", project_name:"ฝึกพากย์ RE9", video_label:"ดูบน YouTube", video_url:"#", character_1_name:"Leon", character_1_image_url:"", character_2_name:"Carlos", character_2_image_url:"", order:"1", active:"TRUE" },
+        { sample_id:"m2", gender:"male", project_name:"Original Character", video_label:"Google Drive", video_url:"#", character_1_name:"ตัวละครชาย 02", character_1_image_url:"", order:"2", active:"TRUE" },
+        { sample_id:"f1", gender:"female", project_name:"ฝึกพากย์อนิเมชั่น", video_label:"TikTok", video_url:"#", character_1_name:"ตัวละครหญิง 01", character_1_image_url:"", order:"1", active:"TRUE" }
+      ],
+      pricing: [
+        { service:"ฝึกพากย์", price:"เริ่มต้น 100+", note:"เหมาะกับคลิปฝึกพากย์และงานสั้น", order:"1", active:"TRUE" },
+        { service:"ออริจินอล คาแรคเตอร์", price:"เริ่มต้น 300+", note:"ปรับน้ำเสียงตามคาแรกเตอร์", order:"2", active:"TRUE" },
+        { service:"บรรยาย", price:"เริ่มต้น 300+", note:"งานบรรยายทั่วไป", order:"3", active:"TRUE" },
+        { service:"โปรเจค / อื่น ๆ", price:"คุยรายละเอียดก่อน", note:"ประเมินตามขอบเขตงาน", order:"4", active:"TRUE" }
+      ],
+      reviews: [
+        { image_url:"", caption:"เพิ่มรูปรีวิวจาก Google Sheet ได้ที่แท็บ REVIEWS", order:"1", active:"TRUE" }
+      ],
+      contacts: [
+        { label:"Facebook", url:"#", order:"1", active:"TRUE" },
+        { platform:"instagram", label:"Instagram", url:"#", order:"2", active:"TRUE" },
+        { label:"TikTok", url:"#", order:"3", active:"TRUE" }
+      ]
+    };
+
+    const state = {
+      gender: "male",
+      sampleIndex: 0,
+      characterCardIndex: 0,
+      samples: [],
+      reviews: [],
+      reviewIndex: 0
+    };
+
+    const $ = (s, ctx=document) => ctx.querySelector(s);
+    const $$ = (s, ctx=document) => [...ctx.querySelectorAll(s)];
+    const active = v => !["false","0","no","off"].includes(String(v ?? "TRUE").trim().toLowerCase());
+    const orderBy = rows => [...rows].sort((a,b)=>(Number(a.order)||999)-(Number(b.order)||999));
+
+    function escapeHtml(value=""){
+      return String(value).replace(/[&<>"']/g, ch => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[ch]));
+    }
+
+    // CSV parser ที่รองรับ comma, quote และขึ้นบรรทัดใหม่ใน cell
+    function parseCSV(text){
+      const rows = [];
+      let row = [], cell = "", inQuotes = false;
+      for(let i=0;i<text.length;i++){
+        const c = text[i];
+        const n = text[i+1];
+        if(c === '"' && inQuotes && n === '"'){ cell += '"'; i++; continue; }
+        if(c === '"'){ inQuotes = !inQuotes; continue; }
+        if(c === ',' && !inQuotes){ row.push(cell); cell = ""; continue; }
+        if((c === '\n' || c === '\r') && !inQuotes){
+          if(c === '\r' && n === '\n') i++;
+          row.push(cell); cell = "";
+          if(row.some(v => v !== "")) rows.push(row);
+          row = [];
+          continue;
+        }
+        cell += c;
+      }
+      row.push(cell);
+      if(row.some(v => v !== "")) rows.push(row);
+      if(!rows.length) return [];
+      const headers = rows[0].map(h => h.trim());
+      return rows.slice(1).map(cols => Object.fromEntries(headers.map((h,i)=>[h,(cols[i] ?? "").trim()])));
+    }
+
+    function csvUrl(sheetName){
+      if(!SHEET_ID) throw new Error("ไม่พบ Spreadsheet ID จาก SHEET_URL");
+      const base = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+      return sheetName ? `${base}&sheet=${encodeURIComponent(sheetName)}` : base;
+    }
+
+    async function loadTab(name, fallbackRows){
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 6500);
+
+      try{
+        const res = await fetch(csvUrl(name), {
+          cache:"no-store",
+          signal:controller.signal
+        });
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        const csvText = await res.text();
+        const parsed = parseCSV(csvText);
+        if(!parsed.length) throw new Error("empty sheet");
+        return parsed;
+      }catch(err){
+        const label = name || "ชีตแรก";
+        console.warn(`[Sheet] อ่าน ${label} ไม่สำเร็จ จึงใช้ข้อมูลสำรอง:`, err);
+        return fallbackRows;
+      }finally{
+        clearTimeout(timeout);
+      }
+    }
+
+    function normalizeImageUrl(url){
+      if(!url) return "";
+      const u = String(url).trim();
+      const driveMatch = u.match(/drive\.google\.com\/file\/d\/([^/]+)/) || u.match(/[?&]id=([^&]+)/);
+      if(driveMatch) return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1600`;
+      return u;
+    }
+
+    function platformKey(v=""){
+      const s = v.toLowerCase().replace(/\s+/g,"_");
+      if(s.includes("facebook") || s === "fb") return "facebook";
+      if(s.includes("tiktok")) return "tiktok";
+      if(s.includes("youtube")) return "youtube";
+      if(s.includes("instagram") || s === "ig") return "instagram";
+      if(s.includes("drive")) return "googledrive";
+      return "linktree";
+    }
+
+    function platformIcon(platform){
+      const key = platformKey(platform);
+      const colors = {
+        facebook:"1877F2", tiktok:"111111", youtube:"FF0000",
+        instagram:"E4405F", googledrive:"4285F4", linktree:"43E55E"
+      };
+      return `https://cdn.simpleicons.org/${key}/${colors[key] || "6D5E76"}`;
+    }
+
+
+    function safeUrl(value=""){
+      const url = String(value || "").trim();
+      if(!url || url === "#") return "";
+      try{
+        const parsed = new URL(url, location.href);
+        if(!["http:","https:"].includes(parsed.protocol)) return "";
+        return parsed.href;
+      }catch(_){ return ""; }
+    }
+
+    function detectVideoPlatform(url=""){
+      const raw = String(url || "").trim();
+      try{
+        const u = new URL(raw);
+        const host = u.hostname.toLowerCase();
+        if(host.includes("youtube.com") || host.includes("youtu.be")) return "youtube";
+        if(host.includes("drive.google.com")) return "google_drive";
+        if(host.includes("tiktok.com")) return "tiktok";
+        if(host.includes("facebook.com") || host.includes("fb.watch")) return "facebook";
+        if(host.includes("vimeo.com")) return "vimeo";
+        if(/\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(u.pathname + u.search)) return "direct_video";
+        return "generic";
+      }catch(_){
+        return "generic";
+      }
+    }
+
+    function videoPlatformLabel(platform){
+      const labels = {
+        youtube:"YouTube",
+        google_drive:"Google Drive",
+        tiktok:"TikTok",
+        facebook:"Facebook",
+        vimeo:"Vimeo",
+        direct_video:"Video",
+        generic:"เว็บไซต์ต้นทาง"
+      };
+      return labels[platform] || "เว็บไซต์ต้นทาง";
+    }
+
+    function videoEmbedInfo(item){
+      const raw = safeUrl(item?.url);
+      const platform = detectVideoPlatform(raw);
+      if(!raw) return { type:"empty", platform, url:"" };
+
+      if(platform === "youtube"){
+        let id = "";
+        try{
+          const u = new URL(raw);
+          if(u.hostname.includes("youtu.be")) id = u.pathname.split("/").filter(Boolean)[0] || "";
+          else if(u.pathname.includes("/shorts/")) id = u.pathname.split("/shorts/")[1]?.split(/[/?#]/)[0] || "";
+          else if(u.pathname.includes("/embed/")) id = u.pathname.split("/embed/")[1]?.split(/[/?#]/)[0] || "";
+          else id = u.searchParams.get("v") || "";
+        }catch(_){ }
+        if(id){
+          return {
+            type:"iframe",
+            platform,
+            url:raw,
+            embed:`https://www.youtube.com/embed/${encodeURIComponent(id)}?rel=0&playsinline=1`
+          };
+        }
+      }
+
+      if(platform === "google_drive"){
+        const m =
+          raw.match(/drive\.google\.com\/file\/d\/([^/?#]+)/) ||
+          raw.match(/[?&]id=([^&#]+)/);
+        if(m?.[1]){
+          return {
+            type:"iframe",
+            platform,
+            url:raw,
+            embed:`https://drive.google.com/file/d/${encodeURIComponent(m[1])}/preview`
+          };
+        }
+      }
+
+      if(platform === "tiktok"){
+        const m = raw.match(/\/video\/(\d+)/);
+        if(m?.[1]){
+          return {
+            type:"iframe",
+            platform,
+            url:raw,
+            embed:`https://www.tiktok.com/player/v1/${m[1]}?autoplay=0&loop=0&music_info=1&description=1`
+          };
+        }
+      }
+
+      if(platform === "facebook"){
+        return {
+          type:"iframe",
+          platform,
+          url:raw,
+          embed:`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(raw)}&show_text=false&width=1280`
+        };
+      }
+
+      if(platform === "vimeo"){
+        const m = raw.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+        if(m?.[1]){
+          return {
+            type:"iframe",
+            platform,
+            url:raw,
+            embed:`https://player.vimeo.com/video/${m[1]}`
+          };
+        }
+      }
+
+      if(platform === "direct_video"){
+        return { type:"video", platform, url:raw, src:raw };
+      }
+
+      // ลิงก์จากเว็บไซต์อื่น: ลองเปิดใน iframe ภายในเว็บโดยตรง
+      // ถ้าเว็บต้นทางอนุญาตการฝัง ก็จะดูได้ในกรอบนี้ทันที
+      return { type:"iframe", platform:"generic", url:raw, embed:raw };
+    }
+
+    function renderClipStage(link){
+      if(!link || !link.url){
+        return `<div class="sample-no-clips">ยังไม่ได้เพิ่มลิงก์คลิป</div>`;
+      }
+
+      const info = videoEmbedInfo(link);
+      const label = escapeHtml(link.label || videoPlatformLabel(info.platform) || "ดูคลิป");
+
+      if(info.type === "video"){
+        return `
+          <video
+            src="${escapeHtml(info.src)}"
+            title="${label}"
+            controls
+            playsinline
+            preload="metadata"
+            controlslist="nodownload">
+          </video>`;
+      }
+
+      if(info.type === "iframe"){
+        const sandbox = info.platform === "generic"
+          ? ` sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"`
+          : "";
+
+        return `
+          <iframe
+            src="${escapeHtml(info.embed)}"
+            title="${label}"
+            loading="lazy"${sandbox}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>`;
+      }
+
+      return `<div class="sample-no-clips">ลิงก์คลิปนี้ไม่สามารถสร้างตัวเล่นได้</div>`;
+    }
+
+    function renderClipSourceBar(link){
+      const raw = safeUrl(link?.url);
+      if(!raw) return "";
+      const platform = detectVideoPlatform(raw);
+      const label = escapeHtml(link.label || `เปิดดูบน ${videoPlatformLabel(platform)}`);
+      return `
+        <div class="sample-media-bar">
+          <a class="sample-source-link" href="${escapeHtml(raw)}" target="_blank" rel="noopener noreferrer">
+            <img src="${platformIcon(platform)}" alt="">
+            <span>${label}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>`;
+    }
+
+    function renderWorkTypes(rows){
+      const acceptRows = orderBy(rows.filter(r => active(r.active) && String(r.group).toLowerCase()==="accept"));
+      const rejectRows = orderBy(rows.filter(r => active(r.active) && String(r.group).toLowerCase()==="reject"));
+
+      $("#acceptList").innerHTML = acceptRows.map((r, i) => `
+        <li style="--item-delay:${Math.min(i * 55, 330)}ms"><span class="badge-icon">✓</span><span>${escapeHtml(r.label)}</span></li>
+      `).join("");
+
+      $("#rejectList").innerHTML = rejectRows.map((r, i) => `
+        <li style="--item-delay:${Math.min(i * 55, 330)}ms"><span class="badge-icon">×</span><span>${escapeHtml(r.label)}</span></li>
+      `).join("");
+    }
+
+    function applyStatusStyle(statusText=""){
+      const badge = $("#statusBadge");
+      if(!badge) return;
+      const text = String(statusText).trim().toLowerCase();
+      const withoutOpen = text.replace(/เปิด/g, "");
+      const isBusy = /(ใกล้เต็ม|จำกัด|รอคิว|คิวใกล้|busy|limited|wait)/i.test(text);
+      const isClosed = !isBusy && (
+        /(ยังไม่เปิด|ไม่เปิด)/i.test(text) ||
+        /(ปิด|เต็ม|งดรับ|หยุด|closed?|full)/i.test(withoutOpen)
+      );
+      badge.classList.toggle("is-closed", isClosed);
+      badge.classList.toggle("is-busy", isBusy);
+    }
+
+    function renderMascot(settings){
+      // รองรับ SETTINGS ได้ 2 รูปแบบ:
+      // 1) คอลัมน์แนวนอน: status, mascot_male_url, mascot_female_url
+      // 2) แบบเดิม: key, value
+      let settingsMap = {};
+      if(settings.length && ("status" in settings[0] || "mascot_male_url" in settings[0] || "mascot_female_url" in settings[0])){
+        settingsMap = settings[0];
+      }else{
+        settingsMap = Object.fromEntries(settings.map(r => [r.key, r.value]));
+      }
+
+      const statusValue = settingsMap.status || "เปิดรับคอมมิชั่น";
+      $("#statusText").textContent = statusValue;
+      applyStatusStyle(statusValue);
+
+      const maleUrl = normalizeImageUrl(settingsMap.mascot_male_url || "");
+      const femaleUrl = normalizeImageUrl(settingsMap.mascot_female_url || "");
+      const maleImg = $("#mascotMale");
+      const femaleImg = $("#mascotFemale");
+      const pair = $("#mascotPair");
+
+      if(!maleUrl && !femaleUrl){
+        pair.hidden = true;
+        return;
+      }
+
+      setupFancyImageLoaders(pair);
+      pair.hidden = false;
+
+      const bindMascotImg = (img, url) => {
+        const wrap = img.closest(".img-load-wrap") || img;
+        if(!url){
+          wrap.hidden = true;
+          return;
+        }
+        wrap.hidden = false;
+        if(img.getAttribute("src") === url && img.complete && img.naturalWidth > 0){
+          markImageLoaded(img);
+          return;
+        }
+        wrap.classList.remove("is-loaded");
+        img.onload = () => markImageLoaded(img);
+        img.onerror = () => {
+          wrap.hidden = true;
+          markImageLoaded(img);
+          const maleWrap = maleImg.closest(".img-load-wrap") || maleImg;
+          const femaleWrap = femaleImg.closest(".img-load-wrap") || femaleImg;
+          if(maleWrap.hidden && femaleWrap.hidden) pair.hidden = true;
+        };
+        img.src = url;
+      };
+
+      bindMascotImg(maleImg, maleUrl);
+      bindMascotImg(femaleImg, femaleUrl);
+    }
+
+    function splitMultilineCell(value){
+      // เก็บตำแหน่งบรรทัดว่างไว้ เพื่อให้ชื่อกับรูปจับคู่ตามเลขบรรทัดได้ตรงกัน
+      return String(value ?? "")
+        .replace(/\r\n?/g, "\n")
+        .split("\n")
+        .map(v => v.trim());
+    }
+
+    function sampleCharacters(sample){
+      const found = [];
+
+      // รูปแบบใหม่:
+      // character_name      = ชื่อหลายตัว คั่นด้วยการขึ้นบรรทัดใหม่
+      // character_image_url = URL หลายรูป คั่นด้วยการขึ้นบรรทัดใหม่
+      // บรรทัดที่ N ของชื่อ จะจับคู่กับบรรทัดที่ N ของรูป
+      const names = splitMultilineCell(sample.character_name);
+      const images = splitMultilineCell(sample.character_image_url);
+      const lineCount = Math.max(names.length, images.length);
+
+      for(let i = 0; i < lineCount; i++){
+        const name = names[i] || "";
+        const image = images[i] || "";
+        if(name || image){
+          found.push({
+            name: name || `ตัวละคร ${i + 1}`,
+            image
+          });
+        }
+      }
+
+      // รองรับคอลัมน์แบบเก่า character_1_name / character_1_image_url
+      // เผื่อข้อมูลเก่าในชีตยังไม่ได้ย้ายทั้งหมด
+      if(!found.length){
+        const indexes = Object.keys(sample)
+          .map(k => (k.match(/^character_(\d+)_name$/) || [])[1])
+          .filter(Boolean)
+          .map(Number)
+          .sort((a,b)=>a-b);
+
+        indexes.forEach(i => {
+          const name = String(sample[`character_${i}_name`] || "").trim();
+          const image = String(sample[`character_${i}_image_url`] || "").trim();
+          if(name || image){
+            found.push({
+              name: name || `ตัวละคร ${i}`,
+              image
+            });
+          }
+        });
+      }
+
+      return found;
+    }
+
+    function sampleClip(sample){
+      return {
+        label: sample.video_label || sample.label || "ดูคลิป",
+        url: sample.video_url || sample.url || ""
+      };
+    }
+
+    function filteredSamples(){
+      return orderBy(state.samples.filter(r => {
+        if(!active(r.active)) return false;
+        const gender = String(r.gender || "").trim().toLowerCase();
+        return gender === state.gender || gender === "both";
+      }));
+    }
+
+    function renderCharacterRail(){
+      const list = filteredSamples();
+      const rail = $("#characterRail");
+      if(!list.length){ rail.innerHTML = ""; return; }
+
+      rail.innerHTML = list.map((s,i) => {
+        const characters = sampleCharacters(s);
+        const firstCharacter = characters[0] || {name:"ตัวละคร", image:""};
+        const src = normalizeImageUrl(firstCharacter.image);
+        const extra = Math.max(0, characters.length - 1);
+        const iconName = String(s.icon_name || s.project_name || `ตัวอย่าง ${i+1}`).trim();
+        const countText = characters.length > 1 ? `${characters.length} ตัว` : "";
+        const initial = escapeHtml((firstCharacter.name || "?").trim().slice(0,1).toUpperCase() || "?");
+
+        return `
+          <button class="char-tab ${i===state.sampleIndex ? "active":""}" data-index="${i}" type="button" title="${escapeHtml(iconName)}">
+            <span class="char-icon-wrap">
+              <span class="char-icon-main">
+                ${src
+                  ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(firstCharacter.name || iconName)}" data-fancy-load>`
+                  : initial}
+              </span>
+              ${extra ? `<span class="char-icon-badge">+${extra}</span>` : ""}
+            </span>
+            <span class="char-tab-title">${escapeHtml(iconName)}</span>
+            ${countText ? `<span class="char-tab-meta">${escapeHtml(countText)}</span>` : ""}
+          </button>`;
+      }).join("");
+
+      $$(".char-tab", rail).forEach(btn => btn.addEventListener("click", () => {
+        const nextIndex = Number(btn.dataset.index);
+        if(nextIndex === state.sampleIndex) return;
+        const direction = nextIndex > state.sampleIndex ? 1 : -1;
+        goToSample(nextIndex, direction);
+      }));
+      setupFancyImageLoaders(rail);
+    }
+
+    function renderSamples(){
+      const list = filteredSamples();
+      if(state.sampleIndex >= list.length) state.sampleIndex = 0;
+      if(state.sampleIndex < 0) state.sampleIndex = Math.max(0,list.length-1);
+
+      renderCharacterRail();
+      const card = $("#sampleCard");
+
+      if(!list.length){
+        card.innerHTML = `<div class="empty">ยังไม่มีตัวอย่างเสียงในหมวดนี้</div>`;
+        return;
+      }
+
+      const sample = list[state.sampleIndex];
+      const characters = sampleCharacters(sample);
+      const clip = sampleClip(sample);
+      const safeCharacters = characters.length ? characters : [{name:"ตัวละคร",image:""}];
+
+      if(state.characterCardIndex >= safeCharacters.length) state.characterCardIndex = 0;
+      if(state.characterCardIndex < 0) state.characterCardIndex = safeCharacters.length - 1;
+
+      const activeCharacter = safeCharacters[state.characterCardIndex];
+      const activeImage = normalizeImageUrl(activeCharacter.image);
+
+      card.innerHTML = `
+        <div class="sample-character-pane">
+          <div class="sample-character-carousel">
+            <button class="sample-char-nav prev" type="button" aria-label="ตัวละครก่อนหน้า" ${safeCharacters.length <= 1 ? "hidden" : ""}>‹</button>
+
+            <div class="sample-character-card">
+              <div class="sample-character-visual">
+                ${activeImage
+                  ? `<img src="${escapeHtml(activeImage)}" alt="${escapeHtml(activeCharacter.name)}" data-fancy-load>`
+                  : `<div class="placeholder-person sample-character-placeholder">🎤</div>`}
+              </div>
+              <div class="sample-character-name">${escapeHtml(activeCharacter.name || `ตัวละคร ${state.characterCardIndex + 1}`)}</div>
+            </div>
+
+            <button class="sample-char-nav next" type="button" aria-label="ตัวละครถัดไป" ${safeCharacters.length <= 1 ? "hidden" : ""}>›</button>
+          </div>
+
+          ${safeCharacters.length > 1 ? `
+            <div class="sample-character-dots">
+              ${safeCharacters.map((character, index) => `
+                <button
+                  class="sample-character-dot ${index === state.characterCardIndex ? "active" : ""}"
+                  type="button"
+                  data-character-index="${index}"
+                  aria-label="ดูตัวละคร ${index + 1}: ${escapeHtml(character.name || `ตัวละคร ${index + 1}`)}">
+                </button>
+              `).join("")}
+            </div>
+          ` : ""}
+        </div>
+
+        <div class="sample-media-pane">
+          <div id="sampleVideoStage" class="sample-video-stage">
+            ${renderClipStage(clip)}
+          </div>
+          ${renderClipSourceBar(clip)}
+        </div>
+
+        <div class="sample-project-footer">
+          <strong>${escapeHtml(sample.project_name || "ตัวอย่างโปรเจกต์")}</strong>
+        </div>
+      `;
+
+      bindCharacterCardControls(card, safeCharacters.length);
+      setupFancyImageLoaders(card);
+    }
+
+    function bindCharacterCardControls(card, total){
+      if(total <= 1) return;
+
+      $(".sample-char-nav.prev", card)?.addEventListener("click", () => moveCharacterCard(-1));
+      $(".sample-char-nav.next", card)?.addEventListener("click", () => moveCharacterCard(1));
+
+      $$(".sample-character-dot", card).forEach(dot => {
+        dot.addEventListener("click", () => {
+          const nextIndex = Number(dot.dataset.characterIndex);
+          if(Number.isNaN(nextIndex) || nextIndex === state.characterCardIndex) return;
+          state.characterCardIndex = nextIndex;
+          updateCharacterCardOnly();
+        });
+      });
+    }
+
+    function updateCharacterCardOnly(){
+      const list = filteredSamples();
+      if(!list.length) return;
+
+      const sample = list[state.sampleIndex];
+      const characters = sampleCharacters(sample);
+      const safeCharacters = characters.length ? characters : [{name:"ตัวละคร",image:""}];
+
+      if(state.characterCardIndex >= safeCharacters.length) state.characterCardIndex = 0;
+      if(state.characterCardIndex < 0) state.characterCardIndex = safeCharacters.length - 1;
+
+      const activeCharacter = safeCharacters[state.characterCardIndex];
+      const activeImage = normalizeImageUrl(activeCharacter.image);
+      const characterCard = $(".sample-character-card");
+
+      if(characterCard){
+        characterCard.innerHTML = `
+          <div class="sample-character-visual">
+            ${activeImage
+              ? `<img src="${escapeHtml(activeImage)}" alt="${escapeHtml(activeCharacter.name)}" data-fancy-load>`
+              : `<div class="placeholder-person sample-character-placeholder">🎭</div>`}
+          </div>
+          <div class="sample-character-name">${escapeHtml(activeCharacter.name || `ตัวละคร ${state.characterCardIndex + 1}`)}</div>
+        `;
+
+        // รีสตาร์ท animation เฉพาะการ์ดตัวละคร ไม่ยุ่งกับ video player
+        characterCard.style.animation = "none";
+        void characterCard.offsetWidth;
+        characterCard.style.animation = "";
+        setupFancyImageLoaders(characterCard);
+      }
+
+      $$(".sample-character-dot").forEach((dot, index) => {
+        dot.classList.toggle("active", index === state.characterCardIndex);
+      });
+    }
+
+    function moveCharacterCard(delta){
+      const list = filteredSamples();
+      if(!list.length) return;
+      const sample = list[state.sampleIndex];
+      const characters = sampleCharacters(sample);
+      const total = (characters.length || 1);
+      state.characterCardIndex = (state.characterCardIndex + delta + total) % total;
+      updateCharacterCardOnly();
+    }
+
+    let sampleTransitionLock = false;
+    let sampleTransitionRevision = 0;
+
+    function resetSampleTransitionClasses(card = $("#sampleCard")){
+      if(!card) return;
+      card.classList.remove(
+        "sample-exit-left",
+        "sample-exit-right",
+        "sample-enter-left",
+        "sample-enter-right",
+        "sample-mobile-swap"
+      );
+    }
+
+    function goToSample(nextIndex, direction=1, force=false){
+      const list = filteredSamples();
+      if(!list.length || sampleTransitionLock) return;
+      nextIndex = (nextIndex + list.length) % list.length;
+      if(!force && nextIndex === state.sampleIndex) return;
+
+      const card = $("#sampleCard");
+      const revision = ++sampleTransitionRevision;
+
+      sampleTransitionLock = true;
+      resetSampleTransitionClasses(card);
+      card.classList.add(direction > 0 ? "sample-exit-left" : "sample-exit-right");
+
+      setTimeout(() => {
+        if(revision !== sampleTransitionRevision) return;
+
+        state.sampleIndex = nextIndex;
+        state.characterCardIndex = 0;
+        resetSampleTransitionClasses(card);
+        renderSamples();
+
+        void card.offsetWidth;
+        const enterClass = direction > 0 ? "sample-enter-right" : "sample-enter-left";
+        card.classList.add(enterClass);
+
+        setTimeout(() => {
+          if(revision !== sampleTransitionRevision) return;
+          card.classList.remove(enterClass);
+          sampleTransitionLock = false;
+        }, 470);
+
+        const activeTab = $(".char-tab.active");
+        activeTab?.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+      }, 170);
+    }
+
+    function moveSample(delta){
+      const list = filteredSamples();
+      if(!list.length) return;
+      goToSample(state.sampleIndex + delta, delta);
+    }
+
+    function renderPricing(rows){
+      const grid = $("#priceGrid");
+      const items = orderBy(rows.filter(r => active(r.active)));
+      grid.innerHTML = items.map((r) => {
+        const priceText = String(r.price || "").trim();
+        const isContact = ("is_contact" in r)
+          ? active(r.is_contact)
+          : (String(r.type || "").toLowerCase() === "contact" || (priceText !== "" && !/\d/.test(priceText)));
+        const tag = isContact ? "a" : "article";
+        const href = isContact ? ` href="#contact" aria-label="ไปยังช่องทางการติดต่อ"` : "";
+        const contactClass = isContact ? " price-contact" : "";
+        return `
+          <${tag}${href} class="price-card${contactClass} fade-up">
+            <div class="price-left">
+              <div class="price-service">${escapeHtml(r.service)}</div>
+              ${r.note ? `<div class="price-note">${escapeHtml(r.note)}</div>` : ""}
+              ${isContact ? `<span class="price-contact-hint">กดเพื่อพูดคุยรายละเอียด ↗</span>` : ""}
+            </div>
+            <div class="price-right">
+              <div class="price-value">${escapeHtml(r.price)}</div>
+              <span class="price-tail-icon" aria-hidden="true">${isContact ? "💬" : "💵"}</span>
+            </div>
+          </${tag}>`;
+      }).join("");
+      setupFancyImageLoaders(grid);
+    }
+
+    function reviewCards(){
+      const track = $("#reviewTrack");
+      return track ? $$(".review", track) : [];
+    }
+
+    function centerReview(index, behavior="smooth"){
+      const track = $("#reviewTrack");
+      const cards = reviewCards();
+      if(!track || !cards.length) return;
+
+      index = Math.max(0, Math.min(index, cards.length - 1));
+      state.reviewIndex = index;
+
+      const card = cards[index];
+      const left = card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2;
+
+      track.scrollTo({
+        left: Math.max(0, left),
+        behavior
+      });
+
+      cards.forEach((item, i) => {
+        item.classList.toggle("is-centered", i === index);
+      });
+    }
+
+    function nearestReviewIndex(){
+      const track = $("#reviewTrack");
+      const cards = reviewCards();
+      if(!track || !cards.length) return 0;
+
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let bestIndex = 0;
+      let bestDist = Infinity;
+
+      cards.forEach((card, index) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const dist = Math.abs(cardCenter - center);
+        if(dist < bestDist){
+          bestDist = dist;
+          bestIndex = index;
+        }
+      });
+
+      return bestIndex;
+    }
+
+    function renderReviews(rows){
+      state.reviews = orderBy(rows.filter(r => active(r.active)));
+      const track = $("#reviewTrack");
+      track.innerHTML = state.reviews.map((r,i) => {
+        const src = normalizeImageUrl(r.image_url);
+        return `
+          <article class="card review" data-review-index="${i}" tabindex="0" role="button" aria-label="ขยายดูรีวิวลูกค้า ${i+1}">
+            ${src
+              ? `<span class="review-zoom-hint" aria-hidden="true">⤢</span><img src="${escapeHtml(src)}" alt="รีวิวลูกค้า ${i+1}" data-fancy-load>`
+              : `<div style="height:var(--review-media-height);flex:0 0 var(--review-media-height);border-radius:22px;background:linear-gradient(135deg,#fff0f6,#eee9ff);display:grid;place-items:center;color:#9d8ba8;padding:24px;text-align:center">ใส่ลิงก์รูปรีวิวในแท็บ REVIEWS</div>`}
+            ${r.caption ? `<div class="caption">${escapeHtml(r.caption)}</div>` : ""}
+          </article>
+        `;
+      }).join("");
+      setupFancyImageLoaders(track);
+
+      $$(".review", track).forEach((card, i) => {
+        const open = () => {
+          const item = state.reviews[i];
+          if(item && normalizeImageUrl(item.image_url)){
+            openReviewLightbox(i);
+          }
+        };
+        card.addEventListener("click", open);
+        card.addEventListener("keydown", e => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            open();
+          }
+        });
+      });
+
+      state.reviewIndex = 0;
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => centerReview(0, "auto"));
+      });
+    }
+
+    let lightboxIndex = 0;
+
+    function updateLightboxContent(){
+      const items = state.reviews.filter(r => normalizeImageUrl(r.image_url));
+      if(!items.length) return;
+      lightboxIndex = (lightboxIndex + items.length) % items.length;
+      const current = items[lightboxIndex];
+      $("#lightboxImg").src = normalizeImageUrl(current.image_url);
+      $("#lightboxImg").alt = current.caption || `รีวิวลูกค้า ${lightboxIndex + 1}`;
+      $("#lightboxCaption").textContent = current.caption || "";
+      $("#lightboxCounter").textContent = `${lightboxIndex + 1} / ${items.length}`;
+      const multi = items.length > 1;
+      $("#lightboxPrev").hidden = !multi;
+      $("#lightboxNext").hidden = !multi;
+    }
+
+    function openReviewLightbox(rawIndex){
+      const lightbox = $("#reviewLightbox");
+      if(!lightbox) return;
+      const validItems = [];
+      let mappedIndex = 0;
+      state.reviews.forEach((r, idx) => {
+        if(normalizeImageUrl(r.image_url)){
+          if(idx === rawIndex) mappedIndex = validItems.length;
+          validItems.push(r);
+        }
+      });
+      if(!validItems.length) return;
+      lightboxIndex = mappedIndex;
+      updateLightboxContent();
+      lightbox.hidden = false;
+      document.body.classList.add("drawer-open");
+      requestAnimationFrame(() => lightbox.classList.add("is-open"));
+    }
+
+    function closeReviewLightbox(){
+      const lightbox = $("#reviewLightbox");
+      if(!lightbox || lightbox.hidden) return;
+      lightbox.classList.remove("is-open");
+      document.body.classList.remove("drawer-open");
+      setTimeout(() => {
+        if(!lightbox.classList.contains("is-open")){
+          lightbox.hidden = true;
+        }
+      }, 240);
+    }
+
+    function renderContacts(rows){
+      const items = orderBy(rows.filter(r => active(r.active)));
+
+      $("#contactGrid").innerHTML = `
+        <article class="card contact-card fade-up">
+          <div class="contact-person">
+            <h3>ติดต่องาน</h3>
+            <span class="voice-label">มาม่าทอด & Naritzap</span>
+          </div>
+          <div class="contact-links">
+            ${items.map(l => {
+              const url = safeUrl(l.url);
+              const href = url || "#contact";
+              const externalAttrs = url ? ` target="_blank" rel="noopener noreferrer"` : "";
+              return `
+                <a class="contact-link" href="${escapeHtml(href)}"${externalAttrs}>
+                  <span class="contact-left">
+                    <img src="${platformIcon(l.platform || l.label)}" alt="">
+                    <span>${escapeHtml(l.label || l.platform)}</span>
+                  </span>
+                  <span class="contact-arrow">↗</span>
+                </a>`;
+            }).join("")}
+          </div>
+        </article>
+      `;
+    }
+
+    function setupInteractions(){
+
+      const backToTop = $("#backToTop");
+      let backTopRaf = 0;
+
+      const syncBackToTop = () => {
+        backTopRaf = 0;
+        if(!backToTop) return;
+
+        const shouldShow = window.scrollY > Math.max(460, window.innerHeight * .65);
+
+        backToTop.classList.toggle("is-visible", shouldShow);
+        backToTop.setAttribute("aria-hidden", String(!shouldShow));
+        backToTop.tabIndex = shouldShow ? 0 : -1;
+      };
+
+      const requestBackToTopSync = () => {
+        if(backTopRaf) return;
+        backTopRaf = requestAnimationFrame(syncBackToTop);
+      };
+
+      window.addEventListener("scroll", requestBackToTopSync, {passive:true});
+      window.addEventListener("resize", requestBackToTopSync, {passive:true});
+      backToTop?.addEventListener("click", () => {
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({top:0, left:0, behavior:reducedMotion ? "auto" : "smooth"});
+      });
+      syncBackToTop();
+
+      const mobileMenuBtn = $("#mobileMenuBtn");
+      const mobileDrawer = $("#mobileDrawer");
+      const mobileDrawerBackdrop = $("#mobileDrawerBackdrop");
+      const mobileDrawerClose = $("#mobileDrawerClose");
+
+      const setMobileDrawer = (open) => {
+        if(!mobileDrawer || !mobileMenuBtn || !mobileDrawerBackdrop) return;
+
+        mobileMenuBtn.setAttribute("aria-expanded", String(open));
+        mobileMenuBtn.setAttribute("aria-label", open ? "ปิดเมนู" : "เปิดเมนู");
+        mobileDrawer.setAttribute("aria-hidden", String(!open));
+        mobileDrawer.classList.toggle("is-open", open);
+        document.body.classList.toggle("drawer-open", open);
+
+        if(open){
+          mobileDrawerBackdrop.hidden = false;
+          requestAnimationFrame(() => mobileDrawerBackdrop.classList.add("is-open"));
+        }else{
+          mobileDrawerBackdrop.classList.remove("is-open");
+          setTimeout(() => {
+            if(!mobileDrawerBackdrop.classList.contains("is-open")){
+              mobileDrawerBackdrop.hidden = true;
+            }
+          }, 280);
+        }
+      };
+
+      mobileMenuBtn?.addEventListener("click", () => {
+        setMobileDrawer(mobileMenuBtn.getAttribute("aria-expanded") !== "true");
+      });
+      mobileDrawerClose?.addEventListener("click", () => setMobileDrawer(false));
+      mobileDrawerBackdrop?.addEventListener("click", () => setMobileDrawer(false));
+      $$(".mobile-drawer-nav a").forEach(link => {
+        link.addEventListener("click", () => setMobileDrawer(false));
+      });
+      document.addEventListener("keydown", e => {
+        if(e.key === "Escape" && mobileMenuBtn?.getAttribute("aria-expanded") === "true"){
+          setMobileDrawer(false);
+        }
+      });
+      let reviewResizeTimer = 0;
+      window.addEventListener("resize", () => {
+        if(window.innerWidth > 900 && mobileMenuBtn?.getAttribute("aria-expanded") === "true"){
+          setMobileDrawer(false);
+        }
+
+        clearTimeout(reviewResizeTimer);
+        reviewResizeTimer = setTimeout(syncAllReviewCardSizes, 90);
+      }, {passive:true});
+
+      $$(".voice-toggle button").forEach(btn => btn.addEventListener("click", () => {
+        const nextGender = btn.dataset.gender;
+        if(!nextGender || nextGender === state.gender) return;
+
+        const card = $("#sampleCard");
+        const revision = ++sampleTransitionRevision;
+
+        // source of truth เปลี่ยนทันที
+        state.gender = nextGender;
+        state.sampleIndex = 0;
+        state.characterCardIndex = 0;
+
+        $$(".voice-toggle button").forEach(b => {
+          const selected = b.dataset.gender === state.gender;
+          b.classList.toggle("active", selected);
+          b.setAttribute("aria-selected", String(selected));
+        });
+
+        const isTouchMobile = window.matchMedia(
+          "(max-width: 900px), (hover: none) and (pointer: coarse)"
+        ).matches;
+
+        if(isTouchMobile){
+          // มือถือ: ยกเลิก transition เก่าทั้งหมด แล้ว render เนื้อหาใหม่ทันที
+          // เพื่อไม่ให้ปุ่มกับการ์ดอยู่คนละ gender แม้กดรัว ๆ
+          sampleTransitionLock = false;
+          resetSampleTransitionClasses(card);
+          card.classList.remove("sample-mobile-swap");
+
+          renderSamples();
+
+          // animation เป็นเพียง visual effect หลังข้อมูลเปลี่ยนแล้ว
+          void card.offsetWidth;
+          card.classList.add("sample-mobile-swap");
+
+          setTimeout(() => {
+            if(revision !== sampleTransitionRevision) return;
+            card.classList.remove("sample-mobile-swap");
+          }, 240);
+
+          return;
+        }
+
+        // Desktop: คง transition แบบเดิมไว้
+        sampleTransitionLock = true;
+        resetSampleTransitionClasses(card);
+        card.classList.remove("sample-mobile-swap");
+        card.classList.add("sample-exit-left");
+
+        setTimeout(() => {
+          if(revision !== sampleTransitionRevision) return;
+
+          resetSampleTransitionClasses(card);
+          renderSamples();
+
+          void card.offsetWidth;
+          card.classList.add("sample-enter-right");
+
+          setTimeout(() => {
+            if(revision !== sampleTransitionRevision) return;
+            card.classList.remove("sample-enter-right");
+            sampleTransitionLock = false;
+          }, 470);
+        }, 170);
+      }));
+
+      $("#prevSample").addEventListener("click", ()=>moveSample(-1));
+      $("#nextSample").addEventListener("click", ()=>moveSample(1));
+
+      const reviewTrack = $("#reviewTrack");
+
+      const updateReviewFocus = () => {
+        const cards = reviewCards();
+        if(!cards.length) return;
+
+        const index = nearestReviewIndex();
+        state.reviewIndex = index;
+        cards.forEach((card, i) => {
+          card.classList.toggle("is-centered", i === index);
+        });
+      };
+
+      reviewTrack.addEventListener("scroll", updateReviewFocus, {passive:true});
+      window.addEventListener("resize", () => {
+        requestAnimationFrame(() => centerReview(state.reviewIndex, "auto"));
+      }, {passive:true});
+
+      $("#reviewPrev").addEventListener("click", ()=>{
+        const cards = reviewCards();
+        if(!cards.length) return;
+        const next = (state.reviewIndex - 1 + cards.length) % cards.length;
+        centerReview(next, "smooth");
+      });
+
+      $("#reviewNext").addEventListener("click", ()=>{
+        const cards = reviewCards();
+        if(!cards.length) return;
+        const next = (state.reviewIndex + 1) % cards.length;
+        centerReview(next, "smooth");
+      });
+
+      const lightbox = $("#reviewLightbox");
+      $("#lightboxClose")?.addEventListener("click", closeReviewLightbox);
+      $("#lightboxPrev")?.addEventListener("click", () => { lightboxIndex--; updateLightboxContent(); });
+      $("#lightboxNext")?.addEventListener("click", () => { lightboxIndex++; updateLightboxContent(); });
+      lightbox?.addEventListener("click", e => {
+        if(e.target === lightbox) closeReviewLightbox();
+      });
+
+      document.addEventListener("keydown", e => {
+        if(lightbox && !lightbox.hidden){
+          if(e.key === "Escape") closeReviewLightbox();
+          if(e.key === "ArrowLeft"){ lightboxIndex--; updateLightboxContent(); }
+          if(e.key === "ArrowRight"){ lightboxIndex++; updateLightboxContent(); }
+          return;
+        }
+        const samplesEl = $("#samples");
+        if(!samplesEl) return;
+        if(!samplesEl.matches(":hover") && !samplesEl.contains(document.activeElement)) return;
+        if(e.key === "ArrowLeft") moveSample(-1);
+        if(e.key === "ArrowRight") moveSample(1);
+      });
+
+      setupRevealObserver();
+    }
+
+    let revealObserver = null;
+
+    function setupRevealObserver(){
+      if(!("IntersectionObserver" in window)){
+        $$(".fade-up").forEach(el => el.classList.add("visible"));
+        return;
+      }
+
+      if(!revealObserver){
+        revealObserver = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if(e.isIntersecting){
+              e.target.style.transitionDelay = e.target.dataset.revealDelay || "0ms";
+              e.target.classList.add("visible");
+              revealObserver.unobserve(e.target);
+            }
+          });
+        }, {
+          threshold:0.04,
+          rootMargin:"0px 0px 80px 0px"
+        });
+      }
+
+      $$(".section").forEach(section => {
+        $$(".fade-up:not([data-reveal-bound])", section).forEach((el,i) => {
+          el.dataset.revealBound = "true";
+          el.dataset.revealDelay = `${Math.min(i * 55, 220)}ms`;
+          revealObserver.observe(el);
+        });
+      });
+    }
+
+
+    function syncReviewCardSize(img){
+      if(!img || !img.closest(".review")) return;
+
+      const card = img.closest(".review");
+      const wrap = img.closest(".img-load-wrap");
+      if(!card || !wrap || !img.naturalWidth || !img.naturalHeight) return;
+
+      const ratio = img.naturalWidth / img.naturalHeight;
+      const mediaHeight = parseFloat(getComputedStyle(wrap).height) || 300;
+
+      // ให้ความกว้างอิงสัดส่วนจริงของรูป
+      // แต่มีเพดานเพื่อไม่ให้ภาพ panorama ยาวผิดปกติจนใช้งาน carousel ลำบาก
+      const viewportCap = window.innerWidth <= 600
+        ? Math.max(260, window.innerWidth * .90)
+        : 820;
+
+      const mediaWidth = Math.max(120, Math.min(mediaHeight * ratio, viewportCap));
+      const cardWidth = mediaWidth + 16; // padding ซ้าย/ขวาของ card
+
+      card.style.setProperty("--review-card-width", `${Math.round(cardWidth)}px`);
+      card.dataset.reviewRatio = String(ratio);
+
+      requestAnimationFrame(() => {
+        if(card.classList.contains("is-centered")){
+          centerReview(state.reviewIndex, "auto");
+        }
+      });
+    }
+
+    function syncAllReviewCardSizes(){
+      $$(".review img[data-fancy-load].img-is-ready").forEach(syncReviewCardSize);
+      requestAnimationFrame(() => centerReview(state.reviewIndex, "auto"));
+    }
+
+    function markImageLoaded(img){
+      if(!img) return;
+      const wrap = img.closest(".img-load-wrap");
+      if(wrap) wrap.classList.add("is-loaded");
+      img.classList.add("img-is-ready");
+      syncReviewCardSize(img);
+    }
+
+    function wrapLoadableImage(img){
+      if(!img || img.dataset.loaderBound === "true") return;
+      img.dataset.loaderBound = "true";
+
+      const parent = img.parentNode;
+      if(!parent) return;
+
+      const wrapper = document.createElement("span");
+      wrapper.className = "img-load-wrap";
+      if(img.classList.contains("mascot")){
+        wrapper.classList.add("img-load-wrap--mascot");
+      }
+
+      const overlay = document.createElement("span");
+      overlay.className = "img-load-overlay";
+
+      const inlineDisplay = getComputedStyle(img).display;
+      if(inlineDisplay === "inline") wrapper.style.display = "inline-block";
+
+      const borderRadius = getComputedStyle(img).borderRadius;
+      if(borderRadius && borderRadius !== "0px"){
+        wrapper.style.borderRadius = borderRadius;
+        overlay.style.borderRadius = borderRadius;
+      }
+
+      parent.insertBefore(wrapper, img);
+      wrapper.appendChild(img);
+      wrapper.appendChild(overlay);
+
+      const reveal = () => markImageLoaded(img);
+
+      if(img.getAttribute("src") && img.complete && img.naturalWidth > 0){
+        requestAnimationFrame(reveal);
+      }else{
+        img.addEventListener("load", reveal, { once:true });
+        img.addEventListener("error", reveal, { once:true });
+      }
+    }
+
+    function setupFancyImageLoaders(scope=document){
+      $$("img[data-fancy-load]", scope).forEach(wrapLoadableImage);
+    }
+
+    const CACHE_KEY = `vc_sheet_cache_${SHEET_ID || "default"}`;
+
+    function readSheetCache(){
+      try{
+        const raw = sessionStorage.getItem(CACHE_KEY);
+        if(!raw) return null;
+        const parsed = JSON.parse(raw);
+        if(!parsed || typeof parsed !== "object" || !parsed.data) return null;
+        return parsed.data;
+      }catch(_){
+        return null;
+      }
+    }
+
+    function writeSheetCache(data){
+      try{
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+      }catch(_){ }
+    }
+
+    function applyAllData(data){
+      state.samples = data.samples;
+      renderMascot(data.settings);
+      renderWorkTypes(data.workTypes);
+      renderSamples();
+      renderPricing(data.pricing);
+      renderReviews(data.reviews);
+      renderContacts(data.contacts);
+      setupFancyImageLoaders();
+      setupRevealObserver();
+    }
+
+    async function init(){
+      // UI ต้องทำงานทันที แม้ Google Sheet ยังโหลดไม่เสร็จ
+      setupInteractions();
+
+      // Safety fallback: อย่าปล่อย content โปร่งใสค้างบนมือถือ
+      setTimeout(() => {
+        $$(".fade-up").forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if(!el.classList.contains("visible") && rect.top < innerHeight * 1.5){
+            el.classList.add("visible");
+          }
+        });
+      }, 700);
+
+      // แสดงข้อมูลจาก sessionStorage cache ทันทีถ้ามี (stale-while-revalidate)
+      const cached = readSheetCache();
+      let cachedSignature = "";
+      if(cached){
+        cachedSignature = JSON.stringify(cached);
+        applyAllData(cached);
+      }
+
+      const [
+        settings, workTypes, samples, pricing, reviews, contacts
+      ] = await Promise.all([
+        loadTab(TABS.settings, fallback.settings),
+        loadTab(TABS.workTypes, fallback.workTypes),
+        loadTab(TABS.samples, fallback.samples),
+        loadTab(TABS.pricing, fallback.pricing),
+        loadTab(TABS.reviews, fallback.reviews),
+        loadTab(TABS.contacts, fallback.contacts)
+      ]);
+
+      const freshData = { settings, workTypes, samples, pricing, reviews, contacts };
+      const freshSignature = JSON.stringify(freshData);
+      writeSheetCache(freshData);
+
+      if(freshSignature !== cachedSignature){
+        applyAllData(freshData);
+      }
+    }
+
+    init().catch(err => {
+      console.error("Init error:", err);
+      $$(".fade-up").forEach(el => el.classList.add("visible"));
+    });
+  </script>
+</body>
+</html>
